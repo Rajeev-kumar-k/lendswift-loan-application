@@ -1,11 +1,7 @@
+import Wizard from './components/navigation/Wizard'
+
 function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
-      <h1 className="text-4xl font-bold text-blue-700">
-        LendSwift Loan Application
-      </h1>
-    </div>
-  )
+  return <Wizard />
 }
 
 export default App
