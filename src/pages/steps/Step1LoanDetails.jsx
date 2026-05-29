@@ -1,8 +1,150 @@
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { step1Schema } from '../../schemas/step1Schema'
+import RadioGroup from '../../components/common/RadioGroup'
+import CurrencyInput from '../../components/common/CurrencyInput'
+import Input from '../../components/common/Input'
+import Select from '../../components/common/Select'
+import {
+  LOAN_TYPES,
+  LOAN_PURPOSES,
+  LOAN_LIMITS,
+} from '../../constants/loanOptions'
+
 function Step1LoanDetails() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(
+      step1Schema
+    ),
+    mode: 'onChange',
+  })
+
+  const selectedLoanType =
+    watch('loanType')
+
+  const loanAmount =
+    watch('loanAmount') || ''
+
+  const purposeOptions =
+    selectedLoanType
+      ? LOAN_PURPOSES[
+          selectedLoanType
+        ]?.map((purpose) => ({
+          label: purpose,
+          value: purpose,
+        }))
+      : []
+
+  const currentLimits =
+    selectedLoanType
+      ? LOAN_LIMITS[
+          selectedLoanType
+        ]
+      : null
+
+  const onSubmit = (data) => {
+    console.log(
+      'Loan Details:',
+      data
+    )
+  }
+
   return (
-    <div className="text-2xl font-semibold text-slate-700">
-      Step 1 - Loan Details
-    </div>
+    <form
+      onSubmit={handleSubmit(
+        onSubmit
+      )}
+      className="grid w-full grid-cols-1 gap-5 md:grid-cols-2"
+    >
+      <div className="md:col-span-2">
+        <RadioGroup
+          label="Loan Type"
+          name="loanType"
+          direction="horizontal"
+          options={LOAN_TYPES}
+          error={
+            errors.loanType
+              ?.message
+          }
+          register={register}
+        />
+      </div>
+
+      <CurrencyInput
+        label="Loan Amount"
+        name="loanAmount"
+        value={loanAmount}
+        onChange={(value) =>
+          setValue(
+            'loanAmount',
+            value,
+            {
+              shouldValidate: true,
+            }
+          )
+        }
+        error={
+          errors.loanAmount
+            ?.message
+        }
+        helpText={
+          currentLimits
+            ? `Allowed range: ₹${currentLimits.minAmount.toLocaleString(
+                'en-IN'
+              )} - ₹${currentLimits.maxAmount.toLocaleString(
+                'en-IN'
+              )}`
+            : ''
+        }
+      />
+
+      <Input
+        label="Tenure (Months)"
+        name="tenure"
+        type="number"
+        placeholder="Enter tenure"
+        error={
+          errors.tenure
+            ?.message
+        }
+        helpText={
+          currentLimits
+            ? `Allowed: ${currentLimits.minTenure} - ${currentLimits.maxTenure} months`
+            : ''
+        }
+        {...register('tenure')}
+      />
+
+      <Select
+        label="Loan Purpose"
+        name="purpose"
+        placeholder="Select purpose"
+        options={purposeOptions}
+        error={
+          errors.purpose
+            ?.message
+        }
+        disabled={
+          !selectedLoanType
+        }
+        {...register('purpose')}
+      />
+
+      <div className="md:col-span-2">
+        <button
+          type="submit"
+          className="rounded-lg bg-[#1F4E79] px-6 py-3 font-medium text-white"
+        >
+          Validate Step 1
+        </button>
+      </div>
+    </form>
   )
 }
 
