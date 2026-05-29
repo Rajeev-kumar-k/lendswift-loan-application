@@ -12,6 +12,7 @@ const MaskedInput = forwardRef(
       error,
       maskType = 'aadhaar',
       disabled = false,
+      isMasked = false,
       ...props
     },
     ref
@@ -19,6 +20,10 @@ const MaskedInput = forwardRef(
     const getMaskedValue = () => {
       if (!value) {
         return ''
+      }
+
+      if (!isMasked) {
+        return value
       }
 
       if (maskType === 'pan') {
@@ -32,12 +37,13 @@ const MaskedInput = forwardRef(
         : value
     }
 
-    const handleChange = (event) => {
+    const handleChange = (
+      event
+    ) => {
       const rawValue =
-        event.target.value.replace(
-          /\s/g,
-          ''
-        )
+        event.target.value
+          .replace(/\s/g, '')
+          .toUpperCase()
 
       onChange(rawValue)
     }
