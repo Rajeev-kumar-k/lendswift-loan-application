@@ -20,8 +20,10 @@ function Step1LoanDetails() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(
-      step1Schema
-    ),
+    step1Schema(
+    '1990-01-01'
+  )
+),
     mode: 'onChange',
   })
 
