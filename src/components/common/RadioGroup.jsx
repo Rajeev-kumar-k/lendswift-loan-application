@@ -4,10 +4,9 @@ function RadioGroup({
   label,
   name,
   options = [],
-  selectedValue,
-  onChange,
   error,
   direction = 'vertical',
+  register,
 }) {
   return (
     <div className="w-full">
@@ -31,14 +30,10 @@ function RadioGroup({
           >
             <input
               type="radio"
-              name={name}
               value={option.value}
-              checked={
-                selectedValue === option.value
-              }
-              onChange={onChange}
               aria-invalid={!!error}
               className="h-4 w-4 text-[#1F4E79] focus:ring-[#1F4E79]"
+              {...register(name)}
             />
 
             <span className="text-sm text-slate-700">
