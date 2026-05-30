@@ -3,6 +3,7 @@ import Input from '../../components/common/Input'
 import Select from '../../components/common/Select'
 import Checkbox from '../../components/common/Checkbox'
 import usePinCodeLookup from '../../hooks/usePinCodeLookup'
+import useLoanFormStore from '../../store/loanFormStore'
 
 const residenceOptions = [
   {
@@ -20,47 +21,84 @@ const residenceOptions = [
 ]
 
 function Step4Address() {
+  const {
+    updateStepData,
+    getStepData,
+  } = useLoanFormStore()
+
+  const savedData =
+    getStepData('step4')
+
   const [
     currentAddress,
     setCurrentAddress,
-  ] = useState('')
+  ] = useState(
+    savedData.currentAddress ||
+      ''
+  )
 
   const [pinCode, setPinCode] =
-    useState('')
+    useState(
+      savedData.pinCode || ''
+    )
 
   const [city, setCity] =
-    useState('')
+    useState(
+      savedData.city || ''
+    )
 
   const [state, setState] =
-    useState('')
+    useState(
+      savedData.state || ''
+    )
 
   const [
     postOffice,
     setPostOffice,
-  ] = useState('')
+  ] = useState(
+    savedData.postOffice ||
+      ''
+  )
 
   const [
     residenceType,
     setResidenceType,
-  ] = useState('')
+  ] = useState(
+    savedData.residenceType ||
+      ''
+  )
 
-  const [rentAmount, setRentAmount] =
-    useState('')
+  const [
+    rentAmount,
+    setRentAmount,
+  ] = useState(
+    savedData.rentAmount ||
+      ''
+  )
 
   const [
     yearsAtAddress,
     setYearsAtAddress,
-  ] = useState('')
+  ] = useState(
+    savedData.yearsAtAddress ||
+      ''
+  )
 
   const [
     previousAddress,
     setPreviousAddress,
-  ] = useState('')
+  ] = useState(
+    savedData.previousAddress ||
+      ''
+  )
 
   const [
     sameAsPermanent,
     setSameAsPermanent,
-  ] = useState(false)
+  ] = useState(
+    savedData.sameAsPermanent ||
+      false
+  )
 
   const [
     stateWarning,
@@ -70,7 +108,8 @@ function Step4Address() {
   const {
     city: lookupCity,
     state: lookupState,
-    postOffice: lookupPostOffice,
+    postOffice:
+      lookupPostOffice,
     isLoading,
     error,
     lookupPinCode,
@@ -109,38 +148,70 @@ function Step4Address() {
   }, [state, lookupState])
 
   useEffect(() => {
-  if (sameAsPermanent) {
-    const permanentAddress = {
-      currentAddress:
-        '123 MG Road',
-      pinCode: '680001',
-      city: 'Thrissur',
-      state: 'Kerala',
-      postOffice:
-        'Thrissur HO',
+    if (sameAsPermanent) {
+      const permanentAddress =
+        {
+          currentAddress:
+            '123 MG Road',
+          pinCode:
+            '680001',
+          city: 'Thrissur',
+          state: 'Kerala',
+          postOffice:
+            'Thrissur HO',
+        }
+
+      setCurrentAddress(
+        permanentAddress.currentAddress
+      )
+
+      setPinCode(
+        permanentAddress.pinCode
+      )
+
+      setCity(
+        permanentAddress.city
+      )
+
+      setState(
+        permanentAddress.state
+      )
+
+      setPostOffice(
+        permanentAddress.postOffice
+      )
     }
+  }, [sameAsPermanent])
 
-    setCurrentAddress(
-      permanentAddress.currentAddress
+  useEffect(() => {
+    updateStepData(
+      'step4',
+      {
+        currentAddress,
+        pinCode,
+        city,
+        state,
+        postOffice,
+        residenceType,
+        rentAmount,
+        yearsAtAddress,
+        previousAddress,
+        sameAsPermanent,
+      }
     )
-
-    setPinCode(
-      permanentAddress.pinCode
-    )
-
-    setCity(
-      permanentAddress.city
-    )
-
-    setState(
-      permanentAddress.state
-    )
-
-    setPostOffice(
-      permanentAddress.postOffice
-    )
-  }
-}, [sameAsPermanent])
+  }, [
+    currentAddress,
+    pinCode,
+    city,
+    state,
+    postOffice,
+    residenceType,
+    rentAmount,
+    yearsAtAddress,
+    previousAddress,
+    sameAsPermanent,
+    updateStepData,
+  ])
 
   return (
     <div className="grid gap-5 md:grid-cols-2">
@@ -256,7 +327,8 @@ function Step4Address() {
       {Number(
         yearsAtAddress
       ) < 1 &&
-        yearsAtAddress !== '' && (
+        yearsAtAddress !==
+          '' && (
           <Input
             label="Previous Address"
             name="previousAddress"

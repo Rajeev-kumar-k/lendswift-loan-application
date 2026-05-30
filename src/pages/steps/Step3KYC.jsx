@@ -5,20 +5,39 @@ import {
 import MaskedInput from '../../components/common/MaskedInput'
 import Checkbox from '../../components/common/Checkbox'
 import useVerification from '../../hooks/useVerification'
+import useLoanFormStore from '../../store/loanFormStore'
 
 function Step3KYC() {
-  const [panNumber, setPanNumber] =
-    useState('')
 
-  const [
-    aadhaarNumber,
-    setAadhaarNumber,
-  ] = useState('')
+  const {
+  updateStepData,
+  getStepData,
+} = useLoanFormStore()
 
-  const [
-    aadhaarConsent,
-    setAadhaarConsent,
-  ] = useState(false)
+const savedData =
+  getStepData('step3')
+
+    const [panNumber, setPanNumber] =
+  useState(
+    savedData.panNumber || ''
+  )
+
+const [
+  aadhaarNumber,
+  setAadhaarNumber,
+] = useState(
+  savedData
+    .aadhaarNumber || ''
+)
+
+const [
+  aadhaarConsent,
+  setAadhaarConsent,
+] = useState(
+  savedData
+    .aadhaarConsent ||
+    false
+)
 
   const panVerification =
     useVerification()
@@ -29,12 +48,24 @@ function Step3KYC() {
   const isPanVerified =
     panVerification.isVerified
 
+
   useEffect(() => {
-    console.log(
-      'PAN Verified Status:',
-      isPanVerified
-    )
-  }, [isPanVerified])
+  updateStepData(
+    'step3',
+    {
+      panNumber,
+      aadhaarNumber,
+      aadhaarConsent,
+      isPanVerified,
+    }
+  )
+}, [
+  panNumber,
+  aadhaarNumber,
+  aadhaarConsent,
+  isPanVerified,
+  updateStepData,
+])
 
   return (
     <div className="w-full space-y-6">

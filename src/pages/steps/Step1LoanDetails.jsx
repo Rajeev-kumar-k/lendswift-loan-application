@@ -10,8 +10,18 @@ import {
   LOAN_PURPOSES,
   LOAN_LIMITS,
 } from '../../constants/loanOptions'
+import useLoanFormStore from '../../store/loanFormStore'
 
 function Step1LoanDetails() {
+
+  const {
+  updateStepData,
+  getStepData,
+} = useLoanFormStore()
+
+  const savedData =
+  getStepData('step1')
+
   const {
     register,
     handleSubmit,
@@ -25,6 +35,7 @@ function Step1LoanDetails() {
   )
 ),
     mode: 'onChange',
+    defaultValues: savedData,
   })
 
   const selectedLoanType =
@@ -51,11 +62,16 @@ function Step1LoanDetails() {
       : null
 
   const onSubmit = (data) => {
-    console.log(
-      'Loan Details:',
-      data
-    )
-  }
+  updateStepData(
+    'step1',
+    data
+  )
+
+  console.log(
+    'Loan Details:',
+    data
+  )
+}
 
   return (
     <form

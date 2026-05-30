@@ -4,6 +4,7 @@ import { step2Schema } from '../../schemas/step2Schema'
 import Input from '../../components/common/Input'
 import Select from '../../components/common/Select'
 import RadioGroup from '../../components/common/RadioGroup'
+import useLoanFormStore from '../../store/loanFormStore'
 
 const genderOptions = [
   {
@@ -36,6 +37,15 @@ const maritalStatusOptions = [
 ]
 
 function Step2PersonalInfo() {
+
+  const {
+  updateStepData,
+  getStepData,
+} = useLoanFormStore()
+
+const savedData =
+  getStepData('step2')
+
   const {
     register,
     handleSubmit,
@@ -45,16 +55,22 @@ function Step2PersonalInfo() {
       step2Schema
     ),
     mode: 'onChange',
+    defaultValues: savedData,
   })
 
   
 
-  const onSubmit = (data) => {
-    console.log(
-      'Personal Info:',
-      data
-    )
-  }
+    const onSubmit = (data) => {
+  updateStepData(
+    'step2',
+    data
+  )
+
+  console.log(
+    'Personal Info:',
+    data
+  )
+}
 
   return (
     <form
