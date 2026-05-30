@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 import MaskedInput from '../../components/common/MaskedInput'
 import Checkbox from '../../components/common/Checkbox'
 import useVerification from '../../hooks/useVerification'
@@ -23,6 +26,16 @@ function Step3KYC() {
   const aadhaarVerification =
     useVerification()
 
+  const isPanVerified =
+    panVerification.isVerified
+
+  useEffect(() => {
+    console.log(
+      'PAN Verified Status:',
+      isPanVerified
+    )
+  }, [isPanVerified])
+
   return (
     <div className="w-full space-y-6">
       <MaskedInput
@@ -31,8 +44,8 @@ function Step3KYC() {
         value={panNumber}
         maskType="pan"
         placeholder="Enter PAN number"
-           onChange={(value) =>
-           setPanNumber(value)
+        onChange={(value) =>
+          setPanNumber(value)
         }
         onBlur={() =>
           panVerification.verify(
@@ -71,7 +84,9 @@ function Step3KYC() {
         maskType="aadhaar"
         placeholder="Enter Aadhaar number"
         onChange={(value) =>
-        setAadhaarNumber(value)
+          setAadhaarNumber(
+            value
+          )
         }
         onBlur={() =>
           aadhaarVerification.verify(
