@@ -109,12 +109,38 @@ function Step4Address() {
   }, [state, lookupState])
 
   useEffect(() => {
-    if (sameAsPermanent) {
-      console.log(
-        'Permanent address copied'
-      )
+  if (sameAsPermanent) {
+    const permanentAddress = {
+      currentAddress:
+        '123 MG Road',
+      pinCode: '680001',
+      city: 'Thrissur',
+      state: 'Kerala',
+      postOffice:
+        'Thrissur HO',
     }
-  }, [sameAsPermanent])
+
+    setCurrentAddress(
+      permanentAddress.currentAddress
+    )
+
+    setPinCode(
+      permanentAddress.pinCode
+    )
+
+    setCity(
+      permanentAddress.city
+    )
+
+    setState(
+      permanentAddress.state
+    )
+
+    setPostOffice(
+      permanentAddress.postOffice
+    )
+  }
+}, [sameAsPermanent])
 
   return (
     <div className="grid gap-5 md:grid-cols-2">
