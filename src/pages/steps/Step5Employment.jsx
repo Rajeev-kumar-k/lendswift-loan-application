@@ -7,7 +7,8 @@ import Checkbox from '../../components/common/Checkbox'
 import { step5Schema } from '../../schemas/step5Schema'
 import useLoanFormStore from '../../store/loanFormStore'
 
-const employmentOptions = [
+
+const baseEmploymentOptions = [
   {
     label: 'Salaried',
     value: 'salaried',
@@ -27,10 +28,31 @@ const employmentOptions = [
 ]
 
 function Step5Employment() {
+
+ 
   const {
     updateStepData,
     getStepData,
   } = useLoanFormStore()
+
+  const step1Data =
+  getStepData('step1')
+
+  const loanType =
+  step1Data.loanType
+
+  const employmentOptions =
+  loanType ===
+  'business'
+    ? baseEmploymentOptions.filter(
+        (
+          option
+        ) =>
+          option.value !==
+          'salaried'
+      )
+    : baseEmploymentOptions
+ 
 
   const savedData =
     getStepData('step5')
@@ -38,16 +60,28 @@ function Step5Employment() {
   const {
     register,
     watch,
+    setValue,
+    trigger,
+     getValues,
     formState: { errors },
   } = useForm({
     resolver:
-      zodResolver(
-        step5Schema
-      ),
+  zodResolver(
+    step5Schema(
+      loanType
+    )
+  ),
     mode: 'onChange',
-    defaultValues:
-      savedData,
+   defaultValues: {
+  employmentType:
+    savedData
+      .employmentType ||
+    '',
+  ...savedData,
+},
   })
+
+   
 
   const employmentType =
     watch(
@@ -72,21 +106,31 @@ useEffect(() => {
 
   return (
     <div className="space-y-6">
-      <RadioGroup
-        label="Employment Type"
-        name="employmentType"
-        direction="horizontal"
-        options={
-          employmentOptions
-        }
-        register={register}
-        error={
-          errors
-            .employmentType
-            ?.message
-        }
-      />
-
+  <RadioGroup
+  label="Employment Type"
+  name="employmentType"
+  direction="horizontal"
+  options={
+    employmentOptions
+  }
+  selectedValue={
+    employmentType
+  }
+ onChange={(event) => {
+  setValue(
+    'employmentType',
+    event.target.value,
+    {
+      shouldValidate: true,
+    }
+  )
+}}
+  error={
+    errors
+      .employmentType
+      ?.message
+  }
+/>
       {employmentType ===
         'salaried' && (
         <div className="grid gap-5 md:grid-cols-2">

@@ -37,40 +37,45 @@ const maritalStatusOptions = [
 ]
 
 function Step2PersonalInfo() {
-
   const {
-  updateStepData,
-  getStepData,
-} = useLoanFormStore()
+    updateStepData,
+    getStepData,
+  } = useLoanFormStore()
 
-const savedData =
-  getStepData('step2')
+  const savedData =
+    getStepData('step2')
 
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(
       step2Schema
     ),
     mode: 'onChange',
-    defaultValues: savedData,
+    defaultValues:
+      savedData,
   })
 
-  
+  const selectedGender =
+    watch('gender')
 
-    const onSubmit = (data) => {
-  updateStepData(
-    'step2',
+  const onSubmit = (
     data
-  )
+  ) => {
+    updateStepData(
+      'step2',
+      data
+    )
 
-  console.log(
-    'Personal Info:',
-    data
-  )
-}
+    console.log(
+      'Personal Info:',
+      data
+    )
+  }
 
   return (
     <form
@@ -84,9 +89,12 @@ const savedData =
         name="fullName"
         placeholder="Enter full name"
         error={
-          errors.fullName?.message
+          errors.fullName
+            ?.message
         }
-        {...register('fullName')}
+        {...register(
+          'fullName'
+        )}
       />
 
       <Input
@@ -94,7 +102,8 @@ const savedData =
         name="dateOfBirth"
         type="date"
         error={
-          errors.dateOfBirth
+          errors
+            .dateOfBirth
             ?.message
         }
         {...register(
@@ -108,9 +117,12 @@ const savedData =
         type="email"
         placeholder="Enter email"
         error={
-          errors.email?.message
+          errors.email
+            ?.message
         }
-        {...register('email')}
+        {...register(
+          'email'
+        )}
       />
 
       <Input
@@ -118,7 +130,8 @@ const savedData =
         name="mobileNumber"
         placeholder="Enter mobile number"
         error={
-          errors.mobileNumber
+          errors
+            .mobileNumber
             ?.message
         }
         {...register(
@@ -148,7 +161,8 @@ const savedData =
           maritalStatusOptions
         }
         error={
-          errors.maritalStatus
+          errors
+            .maritalStatus
             ?.message
         }
         {...register(
@@ -157,16 +171,34 @@ const savedData =
       />
 
       <div className="md:col-span-2">
-       <RadioGroup
-        label="Gender"
-        name="gender"
-        direction="horizontal"
-        options={genderOptions}
-        error={
-          errors.gender?.message
-        }
-        register={register}
-      />
+        <RadioGroup
+          label="Gender"
+          name="gender"
+          direction="horizontal"
+          options={
+            genderOptions
+          }
+          selectedValue={
+            selectedGender
+          }
+          error={
+            errors.gender
+              ?.message
+          }
+          onChange={(
+            event
+          ) => {
+            setValue(
+              'gender',
+              event.target
+                .value,
+              {
+                shouldValidate:
+                  true,
+              }
+            )
+          }}
+        />
       </div>
 
       <div className="md:col-span-2">
@@ -174,7 +206,8 @@ const savedData =
           type="submit"
           className="rounded-lg bg-[#1F4E79] px-6 py-3 font-medium text-white"
         >
-          Validate Step 2
+          Validate Step
+          2
         </button>
       </div>
     </form>

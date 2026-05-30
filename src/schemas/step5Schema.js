@@ -109,11 +109,40 @@ const businessOwnerSchema =
   })
 
 export const step5Schema =
-  z.discriminatedUnion(
-    'employmentType',
-    [
-      salariedSchema,
-      selfEmployedSchema,
-      businessOwnerSchema,
-    ]
-  )
+  (loanType) =>
+    z
+      .discriminatedUnion(
+        'employmentType',
+        [
+          salariedSchema,
+          selfEmployedSchema,
+          businessOwnerSchema,
+        ]
+      )
+      .optional()
+      .superRefine(
+        (
+          data,
+          context
+        ) => {
+          if (!data) return
+
+          if (
+            loanType ===
+              'business' &&
+            data.employmentType ===
+              'salaried'
+          ) {
+            context.addIssue({
+              code: z
+                .ZodIssueCode
+                .custom,
+              path: [
+                'employmentType',
+              ],
+              message:
+                'Business loan applicants cannot be salaried employees',
+            })
+          }
+        }
+      )

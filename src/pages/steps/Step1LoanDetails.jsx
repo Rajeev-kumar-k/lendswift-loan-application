@@ -13,14 +13,13 @@ import {
 import useLoanFormStore from '../../store/loanFormStore'
 
 function Step1LoanDetails() {
-
   const {
-  updateStepData,
-  getStepData,
-} = useLoanFormStore()
+    updateStepData,
+    getStepData,
+  } = useLoanFormStore()
 
   const savedData =
-  getStepData('step1')
+    getStepData('step1')
 
   const {
     register,
@@ -30,28 +29,34 @@ function Step1LoanDetails() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(
-    step1Schema(
-    '1990-01-01'
-  )
-),
+      step1Schema(
+        '1990-01-01'
+      )
+    ),
     mode: 'onChange',
-    defaultValues: savedData,
+    defaultValues:
+      savedData,
   })
 
   const selectedLoanType =
     watch('loanType')
 
   const loanAmount =
-    watch('loanAmount') || ''
+    watch('loanAmount') ||
+    ''
 
   const purposeOptions =
     selectedLoanType
       ? LOAN_PURPOSES[
           selectedLoanType
-        ]?.map((purpose) => ({
-          label: purpose,
-          value: purpose,
-        }))
+        ]?.map(
+          (purpose) => ({
+            label:
+              purpose,
+            value:
+              purpose,
+          })
+        )
       : []
 
   const currentLimits =
@@ -61,17 +66,19 @@ function Step1LoanDetails() {
         ]
       : null
 
-  const onSubmit = (data) => {
-  updateStepData(
-    'step1',
+  const onSubmit = (
     data
-  )
+  ) => {
+    updateStepData(
+      'step1',
+      data
+    )
 
-  console.log(
-    'Loan Details:',
-    data
-  )
-}
+    console.log(
+      'Loan Details:',
+      data
+    )
+  }
 
   return (
     <form
@@ -84,13 +91,27 @@ function Step1LoanDetails() {
         <RadioGroup
           label="Loan Type"
           name="loanType"
+          options={
+            LOAN_TYPES
+          }
           direction="horizontal"
-          options={LOAN_TYPES}
+          selectedValue={
+            selectedLoanType
+          }
+          onChange={(event) => {
+            setValue(
+              'loanType',
+              event.target.value,
+              {
+                shouldValidate: true,
+              }
+            )
+          }}  
           error={
-            errors.loanType
+            errors
+              .loanType
               ?.message
           }
-          register={register}
         />
       </div>
 
@@ -98,17 +119,21 @@ function Step1LoanDetails() {
         label="Loan Amount"
         name="loanAmount"
         value={loanAmount}
-        onChange={(value) =>
+        onChange={(
+          value
+        ) =>
           setValue(
             'loanAmount',
             value,
             {
-              shouldValidate: true,
+              shouldValidate:
+                true,
             }
           )
         }
         error={
-          errors.loanAmount
+          errors
+            .loanAmount
             ?.message
         }
         helpText={
@@ -136,14 +161,18 @@ function Step1LoanDetails() {
             ? `Allowed: ${currentLimits.minTenure} - ${currentLimits.maxTenure} months`
             : ''
         }
-        {...register('tenure')}
+        {...register(
+          'tenure'
+        )}
       />
 
       <Select
         label="Loan Purpose"
         name="purpose"
         placeholder="Select purpose"
-        options={purposeOptions}
+        options={
+          purposeOptions
+        }
         error={
           errors.purpose
             ?.message
@@ -151,7 +180,9 @@ function Step1LoanDetails() {
         disabled={
           !selectedLoanType
         }
-        {...register('purpose')}
+        {...register(
+          'purpose'
+        )}
       />
 
       <div className="md:col-span-2">
@@ -159,7 +190,8 @@ function Step1LoanDetails() {
           type="submit"
           className="rounded-lg bg-[#1F4E79] px-6 py-3 font-medium text-white"
         >
-          Validate Step 1
+          Validate Step
+          1
         </button>
       </div>
     </form>

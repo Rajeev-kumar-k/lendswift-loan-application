@@ -6,7 +6,8 @@ function RadioGroup({
   options = [],
   error,
   direction = 'vertical',
-  register,
+  selectedValue,
+  onChange,
 }) {
   return (
     <div className="w-full">
@@ -18,32 +19,50 @@ function RadioGroup({
 
       <div
         className={`flex gap-4 ${
-          direction === 'horizontal'
+          direction ===
+          'horizontal'
             ? 'flex-row flex-wrap'
             : 'flex-col'
         }`}
       >
-        {options.map((option) => (
-          <label
-            key={option.value}
-            className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 p-3 transition hover:border-[#1F4E79]"
-          >
-            <input
-              type="radio"
-              value={option.value}
-              aria-invalid={!!error}
-              className="h-4 w-4 text-[#1F4E79] focus:ring-[#1F4E79]"
-              {...register(name)}
-            />
+        {options.map(
+          (option) => (
+            <label
+              key={
+                option.value
+              }
+              className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 p-3 transition hover:border-[#1F4E79]"
+            >
+              <input
+                type="radio"
+                name={name}
+                value={
+                  option.value
+                }
+                checked={
+                  selectedValue ===
+                  option.value
+                }
+                onChange={
+                  onChange
+                }
+                aria-invalid={
+                  !!error
+                }
+                className="h-4 w-4 text-[#1F4E79] focus:ring-[#1F4E79]"
+              />
 
-            <span className="text-sm text-slate-700">
-              {option.label}
-            </span>
-          </label>
-        ))}
+              <span className="text-sm text-slate-700">
+                {option.label}
+              </span>
+            </label>
+          )
+        )}
       </div>
 
-      <ErrorMessage message={error} />
+      <ErrorMessage
+        message={error}
+      />
     </div>
   )
 }
