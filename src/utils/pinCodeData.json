@@ -1,0 +1,92 @@
+[
+  {
+    "pinCode": "680001",
+    "city": "Thrissur",
+    "state": "Kerala",
+    "postOffice": "Thrissur HO"
+  },
+  {
+    "pinCode": "682001",
+    "city": "Kochi",
+    "state": "Kerala",
+    "postOffice": "Ernakulam HO"
+  },
+  {
+    "pinCode": "695001",
+    "city": "Thiruvananthapuram",
+    "state": "Kerala",
+    "postOffice": "Trivandrum GPO"
+  },
+  {
+    "pinCode": "560001",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "postOffice": "Bangalore GPO"
+  },
+  {
+    "pinCode": "600001",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "postOffice": "Chennai GPO"
+  },
+  {
+    "pinCode": "500001",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "postOffice": "Hyderabad GPO"
+  },
+  {
+    "pinCode": "400001",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "postOffice": "Mumbai GPO"
+  },
+  {
+    "pinCode": "110001",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "postOffice": "New Delhi GPO"
+  },
+  {
+    "pinCode": "700001",
+    "city": "Kolkata",
+    "state": "West Bengal",
+    "postOffice": "Kolkata GPO"
+  },
+  {
+    "pinCode": "302001",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "postOffice": "Jaipur GPO"
+  },
+  {
+    "pinCode": "226001",
+    "city": "Lucknow",
+    "state": "Uttar Pradesh",
+    "postOffice": "Lucknow GPO"
+  },
+  {
+    "pinCode": "380001",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "postOffice": "Ahmedabad GPO"
+  },
+  {
+    "pinCode": "751001",
+    "city": "Bhubaneswar",
+    "state": "Odisha",
+    "postOffice": "Bhubaneswar GPO"
+  },
+  {
+    "pinCode": "800001",
+    "city": "Patna",
+    "state": "Bihar",
+    "postOffice": "Patna GPO"
+  },
+  {
+    "pinCode": "160001",
+    "city": "Chandigarh",
+    "state": "Chandigarh",
+    "postOffice": "Chandigarh GPO"
+  }
+]
