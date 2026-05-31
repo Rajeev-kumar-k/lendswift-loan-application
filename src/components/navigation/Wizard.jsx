@@ -3,10 +3,21 @@ import { steps } from '../../constants/steps'
 import ProgressBar from './ProgressBar'
 import StepNavigation from './StepNavigation'
 import useLoanFormStore from '../../store/loanFormStore'
+import useAutoSave from '../../hooks/useAutoSave'
+import useFormPersistence from '../../hooks/useFormPersistence'
 
 function Wizard() {
   const [currentStep, setCurrentStep] =
     useState(0)
+
+  useAutoSave()
+
+  const {
+  showResumePrompt,
+  resumeForm,
+  startFresh,
+} =
+  useFormPersistence()
 
   const { getStepData } =
     useLoanFormStore()
@@ -107,12 +118,41 @@ function Wizard() {
             Application
           </h1>
 
-          <p className="mt-2 text-slate-500">
-            Complete your
-            loan application
-            securely
-          </p>
-        </div>
+         <p className="mt-2 text-slate-500">
+      Complete your loan application securely
+    </p>
+  </div>
+
+  {showResumePrompt && (
+    <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-slate-800">
+        Resume Previous Application?
+      </h2>
+
+      <p className="mt-2 text-slate-500">
+        We found a saved application draft.
+        Would you like to continue where
+        you left off or start a new
+        application?
+      </p>
+
+      <div className="mt-5 flex gap-4">
+        <button
+          onClick={resumeForm}
+          className="rounded-lg bg-[#1F4E79] px-5 py-2 font-medium text-white"
+        >
+          Resume
+        </button>
+
+        <button
+          onClick={startFresh}
+          className="rounded-lg border border-slate-300 px-5 py-2 font-medium text-slate-700"
+        >
+          Start Fresh
+        </button>
+      </div>
+    </div>
+  )}
 
         <ProgressBar
           currentStep={

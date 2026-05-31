@@ -11,6 +11,7 @@ import {
   LOAN_LIMITS,
 } from '../../constants/loanOptions'
 import useLoanFormStore from '../../store/loanFormStore'
+import { useEffect } from 'react'
 
 function Step1LoanDetails() {
   const {
@@ -21,11 +22,13 @@ function Step1LoanDetails() {
   const savedData =
     getStepData('step1')
 
+    
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(
@@ -37,6 +40,11 @@ function Step1LoanDetails() {
     defaultValues:
       savedData,
   })
+
+  useEffect(() => {
+  reset(savedData)
+}, [savedData, reset])
+
 
   const selectedLoanType =
     watch('loanType')
