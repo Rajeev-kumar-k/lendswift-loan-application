@@ -12,14 +12,20 @@ function Wizard() {
   setCurrentStep,
 ] = useState(0)
 
-  useAutoSave()
+ const {
+  saveMessage,
+} = useAutoSave(
+  currentStep
+)
 
-  const {
+ const {
   showResumePrompt,
   resumeForm,
   startFresh,
 } =
-  useFormPersistence()
+  useFormPersistence(
+    setCurrentStep
+  )
 
   const { getStepData } =
     useLoanFormStore()
@@ -164,6 +170,14 @@ function Wizard() {
             filteredSteps.length
           }
         />
+
+
+{saveMessage && (
+  <div className="mt-4 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm text-green-700 shadow-sm">
+    {saveMessage}
+  </div>
+)}
+
 
         <div className="mb-8 flex min-h-[200px] items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-8">
          <CurrentStepComponent

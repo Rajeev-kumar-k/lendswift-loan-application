@@ -1,4 +1,4 @@
-const ENCRYPTION_KEY =
+const PASSPHRASE =
   'lendswift-secure-key'
 
 async function getKey() {
@@ -9,8 +9,8 @@ async function getKey() {
     await crypto.subtle.importKey(
       'raw',
       encoder.encode(
-        ENCRYPTION_KEY
-      ),
+  PASSPHRASE
+),
       'PBKDF2',
       false,
       ['deriveKey']

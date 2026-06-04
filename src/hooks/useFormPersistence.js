@@ -1,27 +1,50 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 import useLoanFormStore from '../store/loanFormStore'
 import {
   decryptData,
 } from '../utils/encryption'
 
-function useFormPersistence() {
+function useFormPersistence(
+  setCurrentStep
+) {
   const [
     showResumePrompt,
     setShowResumePrompt,
   ] = useState(false)
 
- const {
-  updateStepData,
-} =
-  useLoanFormStore()
+  const [
+    savedDraftKey,
+    setSavedDraftKey,
+  ] = useState(null)
+
+  const {
+    updateStepData,
+    resetForm,
+  } =
+    useLoanFormStore()
 
   useEffect(() => {
-    const savedDraft =
-      localStorage.getItem(
-        'loanFormDraft'
+    const draftKeys =
+      Object.keys(
+        localStorage
+      ).filter(
+        (key) =>
+          key.startsWith(
+            'lendswift_draft_'
+          )
       )
 
-    if (savedDraft) {
+    if (
+      draftKeys.length >
+      0
+    ) {
+      setSavedDraftKey(
+        draftKeys[0]
+      )
+
       setShowResumePrompt(
         true
       )
@@ -31,9 +54,15 @@ function useFormPersistence() {
   const resumeForm =
     async () => {
       try {
+        if (
+          !savedDraftKey
+        ) {
+          return
+        }
+
         const savedDraft =
           localStorage.getItem(
-            'loanFormDraft'
+            savedDraftKey
           )
 
         if (
@@ -48,26 +77,78 @@ function useFormPersistence() {
           )
 
         if (
-  decrypted?.formData
-) {
-  Object.entries(
-    decrypted.formData
-  ).forEach(
-    ([
-      step,
-      data,
-    ]) => {
-      updateStepData(
-        step,
-        data
-      )
-    }
-  )
+          !decrypted
+        ) {
+          return
+        }
 
-  console.log(
-    'Draft restored'
-  )
-}
+        const {
+          version,
+          timestamp,
+          step,
+          formData,
+        } =
+          decrypted
+
+        if (
+          version !==
+          '1.0'
+        ) {
+          localStorage.removeItem(
+            savedDraftKey
+          )
+
+          return
+        }
+
+        const savedTime =
+          new Date(
+            timestamp
+          ).getTime()
+
+        const currentTime =
+          Date.now()
+
+        const hours72 =
+          72 *
+          60 *
+          60 *
+          1000
+
+        if (
+          currentTime -
+            savedTime >
+          hours72
+        ) {
+          localStorage.removeItem(
+            savedDraftKey
+          )
+
+          return
+        }
+
+        Object.entries(
+          formData ||
+            {}
+        ).forEach(
+          ([
+            stepKey,
+            data,
+          ]) => {
+            updateStepData(
+              stepKey,
+              data
+            )
+          }
+        )
+
+        setCurrentStep(
+          step || 0
+        )
+
+        console.log(
+          'Draft restored'
+        )
 
         setShowResumePrompt(
           false
@@ -84,15 +165,31 @@ function useFormPersistence() {
 
   const startFresh =
     () => {
-      localStorage.removeItem(
-        'loanFormDraft'
+      Object.keys(
+        localStorage
       )
+        .filter(
+          (key) =>
+            key.startsWith(
+              'lendswift_draft_'
+            )
+        )
+        .forEach(
+          (key) =>
+            localStorage.removeItem(
+              key
+            )
+        )
+
+      resetForm()
 
       setShowResumePrompt(
         false
       )
 
-      window.location.reload()
+      setCurrentStep(
+        0
+      )
     }
 
   return {

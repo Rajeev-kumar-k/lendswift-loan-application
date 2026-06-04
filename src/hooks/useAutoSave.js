@@ -1,33 +1,109 @@
-import { useEffect } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import useLoanFormStore from '../store/loanFormStore'
 import {
   encryptData,
 } from '../utils/encryption'
 
-function useAutoSave() {
+function useAutoSave(
+  currentStep,
+  interval = 30000
+) {
   const formData =
-    useLoanFormStore()
+    useLoanFormStore(
+      (
+        state
+      ) =>
+        state.formData
+    )
+
+  const timerRef =
+    useRef(null)
+
+  const [
+    saveMessage,
+    setSaveMessage,
+  ] = useState('')
 
   useEffect(() => {
-    const interval =
-      setInterval(
+    if (
+      timerRef.current
+    ) {
+      clearTimeout(
+        timerRef.current
+      )
+    }
+
+    timerRef.current =
+      setTimeout(
         async () => {
           try {
+            const loanType =
+              formData
+                ?.step1
+                ?.loanType ||
+              'general'
+
+            const key =
+              `lendswift_draft_${loanType}`
+
+            const payload =
+              {
+                version:
+                  '1.0',
+
+                timestamp:
+                  new Date().toISOString(),
+
+                step:
+                  currentStep,
+
+                loanType,
+
+                formData,
+              }
+
             const encrypted =
               await encryptData(
-                formData
+                payload
               )
 
             if (
               encrypted
             ) {
               localStorage.setItem(
-                'loanFormDraft',
+                key,
                 encrypted
               )
 
+              const savedAt =
+                new Date().toLocaleTimeString(
+                  [],
+                  {
+                    hour:
+                      '2-digit',
+                    minute:
+                      '2-digit',
+                  }
+                )
+
+              setSaveMessage(
+                `Draft saved at ${savedAt}`
+              )
+
+              setTimeout(
+                () =>
+                  setSaveMessage(
+                    ''
+                  ),
+                2000
+              )
+
               console.log(
-                'Form auto-saved'
+                'Draft auto-saved'
               )
             }
           } catch (
@@ -39,14 +115,27 @@ function useAutoSave() {
             )
           }
         },
-        30000
-      )
-
-    return () =>
-      clearInterval(
         interval
       )
-  }, [formData])
+
+    return () => {
+      if (
+        timerRef.current
+      ) {
+        clearTimeout(
+          timerRef.current
+        )
+      }
+    }
+  }, [
+    formData,
+    currentStep,
+    interval,
+  ])
+
+  return {
+    saveMessage,
+  }
 }
 
 export default useAutoSave
