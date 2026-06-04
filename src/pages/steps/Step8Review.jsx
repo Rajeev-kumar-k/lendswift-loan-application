@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid'
 import Checkbox from '../../components/common/Checkbox'
 import PreApprovalSummary from '../../components/review/PreApprovalSummary'
 import useLoanFormStore from '../../store/loanFormStore'
+import {
+  calculateEMI,
+} from '../../utils/emiCalculator'
+
 
 function Step8Review({
   goToStep,
@@ -66,9 +70,31 @@ function Step8Review({
         0
     )
 
-  const totalIncome =
-    monthlyIncome +
-    coApplicantIncome
+  const residenceType =
+  step4
+    ?.residenceType
+
+const monthlyRent =
+  Number(
+    step4?.rentAmount
+  ) || 0
+
+const applicantIncome =
+  Number(
+    step5
+      ?.monthlyIncome
+  ) || 0
+
+const effectiveIncome =
+  residenceType ===
+  'rented'
+    ? applicantIncome -
+      monthlyRent
+    : applicantIncome
+
+const totalIncome =
+  effectiveIncome +
+  coApplicantIncome
 
   const loanAmount =
     Number(
@@ -82,12 +108,12 @@ function Step8Review({
         0
     )
 
-  const estimatedEMI =
-    loanAmount /
-    Math.max(
-      tenure,
-      1
-    )
+const estimatedEMI =
+  calculateEMI(
+    loanAmount,
+    tenure,
+    step1.loanType
+  )
 
   const exceedsRatio =
     totalIncome > 0
@@ -214,19 +240,19 @@ function Step8Review({
   return (
     <div className="w-full space-y-6">
       <PreApprovalSummary
-        loanAmount={
-          loanAmount
-        }
-        tenureMonths={
-          tenure
-        }
-        monthlyIncome={
-          monthlyIncome
-        }
-        coApplicantIncome={
-          coApplicantIncome
-        }
-      />
+  loanAmount={
+    loanAmount
+  }
+  tenureMonths={
+    tenure
+  }
+  monthlyIncome={
+    effectiveIncome
+  }
+  coApplicantIncome={
+    coApplicantIncome
+  }
+/>
 
      <ReviewSection
   title="Loan Details"

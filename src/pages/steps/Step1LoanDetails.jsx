@@ -1,6 +1,7 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { step1Schema } from '../../schemas/step1Schema'
+import schemaFactory from '../../schemas/schemaFactory'
 import RadioGroup from '../../components/common/RadioGroup'
 import CurrencyInput from '../../components/common/CurrencyInput'
 import Input from '../../components/common/Input'
@@ -11,7 +12,6 @@ import {
   LOAN_LIMITS,
 } from '../../constants/loanOptions'
 import useLoanFormStore from '../../store/loanFormStore'
-import { useEffect } from 'react'
 
 function Step1LoanDetails() {
   const {
@@ -19,46 +19,65 @@ function Step1LoanDetails() {
     getStepData,
   } = useLoanFormStore()
 
+  const formData =
+    useLoanFormStore(
+      (state) =>
+        state.formData
+    )
+
   const savedData =
     getStepData('step1')
 
-    
   const {
     register,
     handleSubmit,
     watch,
     setValue,
     reset,
-    formState: { errors },
+    formState: {
+      errors,
+    },
   } = useForm({
-    resolver: zodResolver(
-      step1Schema(
-        '1990-01-01'
-      )
-    ),
-    mode: 'onChange',
+    resolver:
+      zodResolver(
+        schemaFactory(
+          'step1',
+          formData
+        )
+      ),
+
+    mode:
+      'onChange',
+
     defaultValues:
       savedData,
   })
 
   useEffect(() => {
-  reset(savedData)
-}, [savedData, reset])
-
+    reset(savedData)
+  }, [
+    savedData,
+    reset,
+  ])
 
   const selectedLoanType =
-    watch('loanType')
+    watch(
+      'loanType'
+    )
 
   const loanAmount =
-    watch('loanAmount') ||
-    ''
+    watch(
+      'loanAmount'
+    ) || ''
 
   const purposeOptions =
     selectedLoanType
       ? LOAN_PURPOSES[
           selectedLoanType
         ]?.map(
-          (purpose) => ({
+          (
+            purpose
+          ) => ({
             label:
               purpose,
             value:
@@ -74,19 +93,20 @@ function Step1LoanDetails() {
         ]
       : null
 
-  const onSubmit = (
-    data
-  ) => {
-    updateStepData(
-      'step1',
+  const onSubmit =
+    (
       data
-    )
+    ) => {
+      updateStepData(
+        'step1',
+        data
+      )
 
-    console.log(
-      'Loan Details:',
-      data
-    )
-  }
+      console.log(
+        'Loan Details:',
+        data
+      )
+    }
 
   return (
     <form
@@ -106,15 +126,19 @@ function Step1LoanDetails() {
           selectedValue={
             selectedLoanType
           }
-          onChange={(event) => {
+          onChange={(
+            event
+          ) => {
             setValue(
               'loanType',
-              event.target.value,
+              event.target
+                .value,
               {
-                shouldValidate: true,
+                shouldValidate:
+                  true,
               }
             )
-          }}  
+          }}
           error={
             errors
               .loanType
@@ -126,7 +150,9 @@ function Step1LoanDetails() {
       <CurrencyInput
         label="Loan Amount"
         name="loanAmount"
-        value={loanAmount}
+        value={
+          loanAmount
+        }
         onChange={(
           value
         ) =>
@@ -161,7 +187,8 @@ function Step1LoanDetails() {
         type="number"
         placeholder="Enter tenure"
         error={
-          errors.tenure
+          errors
+            .tenure
             ?.message
         }
         helpText={
@@ -182,7 +209,8 @@ function Step1LoanDetails() {
           purposeOptions
         }
         error={
-          errors.purpose
+          errors
+            .purpose
             ?.message
         }
         disabled={

@@ -1,4 +1,8 @@
-import { useMemo, useState } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { steps } from '../../constants/steps'
 import ProgressBar from './ProgressBar'
 import StepNavigation from './StepNavigation'
@@ -11,6 +15,61 @@ function Wizard() {
   currentStep,
   setCurrentStep,
 ] = useState(0)
+
+
+useEffect(() => {
+  window.history.replaceState(
+    {
+      step: 0,
+    },
+    ''
+  )
+}, [])
+
+useEffect(() => {
+  const state =
+    window.history.state
+
+  if (
+    state?.step !==
+    currentStep
+  ) {
+    window.history.pushState(
+      {
+        step:
+          currentStep,
+      },
+      ''
+    )
+  }
+}, [currentStep])
+
+useEffect(() => {
+  const handlePopState =
+    (event) => {
+      if (
+        event.state
+          ?.step !==
+        undefined
+      ) {
+        setCurrentStep(
+          event.state
+            .step
+        )
+      }
+    }
+
+  window.addEventListener(
+    'popstate',
+    handlePopState
+  )
+
+  return () =>
+    window.removeEventListener(
+      'popstate',
+      handlePopState
+    )
+}, [])
 
  const {
   saveMessage,

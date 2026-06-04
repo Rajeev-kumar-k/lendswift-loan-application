@@ -35,7 +35,7 @@ function Step7Documents() {
     step5Data.employmentType
 
   const panVerified =
-    !!step3Data.panNumber
+  step3Data.panVerified
 
   const updateDocument =
     (key, value) => {

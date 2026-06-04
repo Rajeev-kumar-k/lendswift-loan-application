@@ -37,13 +37,28 @@ function Step6CoApplicant() {
   const savedData =
     getStepData('step6')
 
+
+  const step2Data =
+  getStepData('step2')
+
+const isMarried =
+  step2Data?.maritalStatus ===
+  'married'
+
   const {
     watch,
     setValue,
   } = useForm({
-    defaultValues:
-      savedData,
-  })
+  defaultValues: {
+    ...savedData,
+
+    relationship:
+      savedData?.relationship ||
+      (isMarried
+        ? 'spouse'
+        : ''),
+  },
+})
 
   const [
     panNumber,

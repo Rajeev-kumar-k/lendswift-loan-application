@@ -51,14 +51,15 @@ const [
 
   useEffect(() => {
   updateStepData(
-    'step3',
-    {
-      panNumber,
-      aadhaarNumber,
-      aadhaarConsent,
+  'step3',
+  {
+    panNumber,
+    aadhaarNumber,
+    aadhaarConsent,
+    panVerified:
       isPanVerified,
-    }
-  )
+  }
+)
 }, [
   panNumber,
   aadhaarNumber,
@@ -78,12 +79,12 @@ const [
         onChange={(value) =>
           setPanNumber(value)
         }
-        onBlur={() =>
-          panVerification.verify(
-            panNumber,
-            'pan'
-          )
-        }
+        // onBlur={() =>
+        //   panVerification.verify(
+        //     panNumber,
+        //     'pan'
+        //   )
+        //}
         isMasked={
           panVerification.isVerified
         }
@@ -91,6 +92,28 @@ const [
           panVerification.error
         }
       />
+      <div className="mt-2">
+  <button
+    type="button"
+    onClick={() =>
+      panVerification.verify(
+        panNumber,
+        'pan'
+      )
+    }
+    disabled={
+      !panNumber ||
+      panNumber.length !==
+        10 ||
+      panVerification.isVerifying
+    }
+    className="rounded-lg bg-[#1F4E79] px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {panVerification.isVerifying
+      ? 'Verifying...'
+      : 'Verify PAN'}
+  </button>
+</div>
 
       <div>
         {panVerification
@@ -119,12 +142,12 @@ const [
             value
           )
         }
-        onBlur={() =>
-          aadhaarVerification.verify(
-            aadhaarNumber,
-            'aadhaar'
-          )
-        }
+        // onBlur={() =>
+        //   aadhaarVerification.verify(
+        //     aadhaarNumber,
+        //     'aadhaar'
+        //   )
+        // }
         error={
           aadhaarVerification.error
         }
@@ -132,6 +155,32 @@ const [
           aadhaarVerification.isVerified
         }
       />
+
+      <div className="mt-2">
+  <button
+    type="button"
+    onClick={() =>
+      aadhaarVerification.verify(
+        aadhaarNumber,
+        'aadhaar'
+      )
+    }
+    disabled={
+      !aadhaarNumber ||
+      aadhaarNumber.replace(
+        /\s/g,
+        ''
+      ).length !==
+        12 ||
+      aadhaarVerification.isVerifying
+    }
+    className="rounded-lg bg-[#1F4E79] px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {aadhaarVerification.isVerifying
+      ? 'Verifying...'
+      : 'Verify Aadhaar'}
+  </button>
+</div>
 
       <div>
         {aadhaarVerification
