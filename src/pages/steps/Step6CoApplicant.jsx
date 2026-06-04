@@ -38,7 +38,6 @@ function Step6CoApplicant() {
     getStepData('step6')
 
   const {
-    register,
     watch,
     setValue,
   } = useForm({
@@ -82,9 +81,19 @@ function Step6CoApplicant() {
     <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
       <Input
         label="Co-Applicant Name"
-        {...register(
-          'coApplicantName'
-        )}
+        value={
+          watchedValues.coApplicantName ||
+          ''
+        }
+        onChange={(
+          event
+        ) =>
+          handleFieldChange(
+            'coApplicantName',
+            event.target
+              .value
+          )
+        }
       />
 
       <Select
@@ -92,9 +101,19 @@ function Step6CoApplicant() {
         options={
           relationshipOptions
         }
-        {...register(
-          'relationship'
-        )}
+        value={
+          watchedValues.relationship ||
+          ''
+        }
+        onChange={(
+          event
+        ) =>
+          handleFieldChange(
+            'relationship',
+            event.target
+              .value
+          )
+        }
       />
 
       <div className="md:col-span-2">
@@ -147,9 +166,19 @@ function Step6CoApplicant() {
       <Input
         label="Co-Applicant Income"
         type="number"
-        {...register(
-          'coApplicantIncome'
-        )}
+        value={
+          watchedValues.coApplicantIncome ||
+          ''
+        }
+        onChange={(
+          event
+        ) =>
+          handleFieldChange(
+            'coApplicantIncome',
+            event.target
+              .value
+          )
+        }
       />
 
       <div className="md:col-span-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
@@ -174,9 +203,19 @@ function Step6CoApplicant() {
           label="Signature"
           placeholder="Type full name as signature"
           className="mt-4"
-          {...register(
-            'signature'
-          )}
+          value={
+            watchedValues.signature ||
+            ''
+          }
+          onChange={(
+            event
+          ) =>
+            handleFieldChange(
+              'signature',
+              event.target
+                .value
+            )
+          }
         />
       </div>
     </div>

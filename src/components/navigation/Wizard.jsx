@@ -7,8 +7,10 @@ import useAutoSave from '../../hooks/useAutoSave'
 import useFormPersistence from '../../hooks/useFormPersistence'
 
 function Wizard() {
-  const [currentStep, setCurrentStep] =
-    useState(0)
+  const [
+  currentStep,
+  setCurrentStep,
+] = useState(0)
 
   useAutoSave()
 
@@ -164,7 +166,11 @@ function Wizard() {
         />
 
         <div className="mb-8 flex min-h-[200px] items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-8">
-          <CurrentStepComponent />
+         <CurrentStepComponent
+  goToStep={
+    setCurrentStep
+  }
+/>
         </div>
 
         <StepNavigation
