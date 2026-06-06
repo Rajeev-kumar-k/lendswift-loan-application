@@ -1,0 +1,44 @@
+{
+  "step1": {
+    "loanType": "home",
+    "loanAmount": "3000000",
+    "tenure": "240",
+    "purpose": "Purchase Property"
+  },
+
+  "step2": {
+    "firstName": "Rahul",
+    "lastName": "Sharma",
+    "dateOfBirth": "1990-05-10",
+    "gender": "male",
+    "maritalStatus": "married",
+    "email": "rahul@example.com",
+    "phoneNumber": "9876543211"
+  },
+
+  "step3": {
+    "panNumber": "ABCDE1234F",
+    "aadhaarNumber": "123412341234"
+  },
+
+  "step4": {
+    "currentAddress": "Delhi",
+    "pinCode": "110001",
+    "residenceType": "owned",
+    "yearsAtAddress": "5"
+  },
+
+  "step5": {
+    "employmentType": "salaried",
+    "companyName": "TCS",
+    "monthlyIncome": "120000",
+    "workExperience": "7"
+  },
+
+  "step6": {
+    "coApplicantName": "Priya Sharma",
+    "relationship": "spouse",
+    "coApplicantIncome": "50000",
+    "signature": "Priya Sharma"
+  }
+}

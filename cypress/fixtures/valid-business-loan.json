@@ -1,0 +1,37 @@
+{
+  "step1": {
+    "loanType": "business",
+    "loanAmount": "3000000",
+    "tenure": "60",
+    "purpose": "Business Expansion"
+  },
+
+  "step2": {
+    "firstName": "Arjun",
+    "lastName": "Menon",
+    "dateOfBirth": "1988-04-15",
+    "gender": "male",
+    "maritalStatus": "married",
+    "email": "arjun@example.com",
+    "phoneNumber": "9876543212"
+  },
+
+  "step3": {
+    "panNumber": "ABCDE1234F",
+    "aadhaarNumber": "123412341234"
+  },
+
+  "step4": {
+    "currentAddress": "Kochi",
+    "pinCode": "682001",
+    "residenceType": "owned",
+    "yearsAtAddress": "4"
+  },
+
+  "step5": {
+    "employmentType": "business-owner",
+    "businessName": "Menon Traders",
+    "monthlyIncome": "200000",
+    "gstNumber": "32ABCDE1234F1Z5"
+  }
+}

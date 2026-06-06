@@ -1,0 +1,37 @@
+{
+  "step1": {
+    "loanType": "personal",
+    "loanAmount": "400000",
+    "tenure": "36",
+    "purpose": "Medical Emergency"
+  },
+
+  "step2": {
+    "firstName": "Rajeev",
+    "lastName": "Kumar",
+    "dateOfBirth": "1998-06-10",
+    "gender": "male",
+    "maritalStatus": "single",
+    "email": "rajeev@example.com",
+    "phoneNumber": "9876543210"
+  },
+
+  "step3": {
+    "panNumber": "ABCDE1234F",
+    "aadhaarNumber": "123412341234"
+  },
+
+  "step4": {
+    "currentAddress": "MG Road",
+    "pinCode": "680001",
+    "residenceType": "owned",
+    "yearsAtAddress": "3"
+  },
+
+  "step5": {
+    "employmentType": "salaried",
+    "companyName": "Infosys",
+    "monthlyIncome": "60000",
+    "workExperience": "3"
+  }
+}
