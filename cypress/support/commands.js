@@ -312,33 +312,58 @@ Cypress.Commands.add(
       return
     }
 
-    cy.get(
-      'input[name="coApplicantName"]'
-    ).type(
-      data.coApplicantName
+    cy.contains(
+      'Co-Applicant Name'
     )
+      .parent()
+      .find('input')
+      .type(
+        data.coApplicantName
+      )
 
-    cy.get(
-      'select[name="relationship"]'
-    ).select(
-      data.relationship
+    cy.contains(
+      'Relationship'
     )
+      .parent()
+      .find('select')
+      .select(
+        data.relationship
+      )
 
-    cy.get(
-      'input[name="coApplicantIncome"]'
-    ).type(
-      data.coApplicantIncome
+    cy.contains(
+      'Co-Applicant Income'
     )
+      .parent()
+      .find('input')
+      .type(
+        data.coApplicantIncome
+      )
 
-    cy.get(
-      'input[name="signature"]'
-    ).type(
-      data.signature
+    cy.contains(
+      'I consent to co-applicant verification'
     )
+      .parent()
+      .find(
+        'input[type="checkbox"]'
+      )
+      .check({
+        force: true,
+      })
+
+    cy.contains(
+      'Signature'
+    )
+      .parent()
+      .find('input')
+      .type(
+        data.signature
+      )
 
     cy.contains(
       'Next'
-    ).click()
+    ).click({
+      force: true,
+    })
   }
 )
 

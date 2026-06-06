@@ -1,19 +1,19 @@
 {
   "step1": {
     "loanType": "home",
-    "loanAmount": "3000000",
+    "loanAmount": "2500000",
     "tenure": "240",
     "purpose": "Purchase Property"
   },
 
   "step2": {
-    "firstName": "Rahul",
-    "lastName": "Sharma",
-    "dateOfBirth": "1990-05-10",
+    "firstName": "Rajeev",
+    "lastName": "Kumar",
+    "dateOfBirth": "1998-06-10",
     "gender": "male",
-    "maritalStatus": "married",
-    "email": "rahul@example.com",
-    "phoneNumber": "9876543211"
+    "maritalStatus": "single",
+    "email": "rajeev@example.com",
+    "phoneNumber": "9876543210"
   },
 
   "step3": {
