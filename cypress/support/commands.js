@@ -160,6 +160,13 @@ Cypress.Commands.add(
       'Verify Aadhaar'
     ).click()
 
+    // FIX: consent checkbox
+    cy.get(
+      'input[type="checkbox"]'
+    ).check({
+      force: true,
+    })
+
     cy.contains(
       'Next'
     ).click()

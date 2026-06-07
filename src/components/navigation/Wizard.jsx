@@ -153,17 +153,49 @@ useEffect(() => {
     ].component
 
   const handleNext =
-    () => {
+  () => {
+    const step3Data =
+      getStepData(
+        'step3'
+      )
+
+    // Step 3 validation
+    if (
+      currentStep ===
+      2
+    ) {
+      const hasPan =
+        step3Data?.panNumber?.trim()
+
+      const hasAadhaar =
+        step3Data?.aadhaarNumber?.trim()
+
+      const hasConsent =
+        step3Data?.aadhaarConsent
+
       if (
-        currentStep <
-        filteredSteps.length -
-          1
+        !hasPan ||
+        !hasAadhaar ||
+        !hasConsent
       ) {
-        setCurrentStep(
-          currentStep + 1
+        alert(
+          'Please complete PAN, Aadhaar and consent before continuing'
         )
+
+        return
       }
     }
+
+    if (
+      currentStep <
+      filteredSteps.length -
+        1
+    ) {
+      setCurrentStep(
+        currentStep + 1
+      )
+    }
+  }
 
   const handlePrevious =
     () => {

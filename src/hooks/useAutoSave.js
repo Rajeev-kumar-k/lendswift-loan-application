@@ -10,7 +10,7 @@ import {
 
 function useAutoSave(
   currentStep,
-  interval = 30000
+  interval = 3000
 ) {
   const formData =
     useLoanFormStore(
@@ -79,6 +79,20 @@ function useAutoSave(
                 encrypted
               )
 
+              console.log(
+  'AUTOSAVE RUNNING',
+  formData
+)
+
+console.log(
+  'KEY:',
+  key
+)
+
+console.log(
+  'ENCRYPTED:',
+  encrypted
+)
               const savedAt =
                 new Date().toLocaleTimeString(
                   [],

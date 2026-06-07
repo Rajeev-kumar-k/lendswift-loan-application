@@ -72,5 +72,529 @@ describe(
         )
       }
     )
+
+
+    it(
+  'Step 2 should show validation errors and clear after correction',
+  () => {
+    // Complete Step 1 first
+    cy.fillStep1({
+      loanType:
+        'personal',
+      loanAmount:
+        '400000',
+      tenure: '36',
+      purpose:
+        'Medical Emergency',
+    })
+
+    // Trigger validation
+    cy.get(
+      'input[name="fullName"]'
+    )
+      .focus()
+      .blur()
+
+    cy.get(
+      'input[name="dateOfBirth"]'
+    )
+      .focus()
+      .blur()
+
+    cy.get(
+      'input[name="email"]'
+    )
+      .focus()
+      .blur()
+
+    cy.get(
+      'input[name="mobileNumber"]'
+    )
+      .focus()
+      .blur()
+
+    cy.contains(
+      'Validate Step 2'
+    ).click()
+
+    // Errors should appear
+    cy.get(
+      'p.text-\\[\\#E74C3C\\]'
+    ).should(
+      'exist'
+    )
+
+    // Correct inputs
+    cy.get(
+      'input[name="fullName"]'
+    ).type(
+      'Rajeev Kumar'
+    )
+
+    cy.get(
+      'input[name="dateOfBirth"]'
+    ).type(
+      '1998-06-10'
+    )
+
+    cy.get(
+      'input[name="email"]'
+    ).type(
+      'rajeev@example.com'
+    )
+
+    cy.get(
+      'input[name="mobileNumber"]'
+    ).type(
+      '9876543210'
+    )
+
+    cy.get(
+      'input[name="alternateMobileNumber"]'
+    ).type(
+      '9876543211'
+    )
+
+    cy.get(
+      'select[name="maritalStatus"]'
+    ).select(
+      'single'
+    )
+
+    cy.contains(
+      'male',
+      {
+        matchCase:
+          false,
+      }
+    ).click()
+
+    // Errors clear
+    cy.get(
+      'p.text-\\[\\#E74C3C\\]'
+    ).should(
+      'not.exist'
+    )
+  }
+)
+
+it(
+  'Step 3 should block navigation until PAN, Aadhaar and consent are provided',
+  () => {
+    cy.fillStep1({
+      loanType:
+        'personal',
+      loanAmount:
+        '400000',
+      tenure: '36',
+      purpose:
+        'Medical Emergency',
+    })
+
+    cy.fillStep2({
+      firstName:
+        'Rajeev',
+      lastName:
+        'Kumar',
+      dateOfBirth:
+        '1998-06-10',
+      gender:
+        'male',
+      maritalStatus:
+        'single',
+      email:
+        'rajeev@example.com',
+      phoneNumber:
+        '9876543210',
+    })
+
+    // Try navigating empty
+    cy.contains(
+      'Next'
+    ).click()
+
+    // Should stay on Step 3
+    cy.get(
+      'input[name="panNumber"]'
+    ).should(
+      'exist'
+    )
+
+    // Fill PAN
+    cy.get(
+      'input[name="panNumber"]'
+    ).type(
+      'ABCDE1234F'
+    )
+
+    cy.contains(
+      'Verify PAN'
+    ).click()
+
+    // Fill Aadhaar
+    cy.get(
+      'input[name="aadhaarNumber"]'
+    ).type(
+      '123412341234'
+    )
+
+    cy.contains(
+      'Verify Aadhaar'
+    ).click()
+
+    // Give consent
+    cy.get(
+      'input[type="checkbox"]'
+    ).check({
+      force: true,
+    })
+
+    // Navigation should work now
+    cy.contains(
+      'Next'
+    ).click()
+
+    // Verify Step 4 opened
+    cy.get(
+      'input[name="currentAddress"]'
+    ).should(
+      'exist'
+    )
+  }
+)
+
+it(
+  'Step 4 should allow entering address details and continue',
+  () => {
+    cy.fillStep1({
+      loanType:
+        'personal',
+      loanAmount:
+        '400000',
+      tenure: '36',
+      purpose:
+        'Medical Emergency',
+    })
+
+    cy.fillStep2({
+      firstName:
+        'Rajeev',
+      lastName:
+        'Kumar',
+      dateOfBirth:
+        '1998-06-10',
+      gender:
+        'male',
+      maritalStatus:
+        'single',
+      email:
+        'rajeev@example.com',
+      phoneNumber:
+        '9876543210',
+    })
+
+    cy.fillStep3({
+      panNumber:
+        'ABCDE1234F',
+      aadhaarNumber:
+        '123412341234',
+    })
+
+    // Verify Step 4 opened
+    cy.get(
+      'input[name="currentAddress"]'
+    ).should(
+      'exist'
+    )
+
+    // Fill Step 4
+    cy.get(
+      'input[name="currentAddress"]'
+    ).type(
+      'MG Road'
+    )
+
+    cy.get(
+      'input[name="pinCode"]'
+    ).type(
+      '680001'
+    )
+
+    cy.get(
+      'select[name="residenceType"]'
+    ).select(
+      'owned'
+    )
+
+    cy.get(
+      'input[name="yearsAtAddress"]'
+    ).type('3')
+
+    // Continue
+    cy.contains(
+      'Next'
+    ).click()
+
+   // Verify Step 5 opened
+cy.contains(
+  'Salaried'
+).should(
+  'exist'
+)
+  }
+)
+it(
+  'Step 5 should allow employment details and continue',
+  () => {
+    cy.fillStep1({
+      loanType:
+        'personal',
+      loanAmount:
+        '400000',
+      tenure: '36',
+      purpose:
+        'Medical Emergency',
+    })
+
+    cy.fillStep2({
+      firstName:
+        'Rajeev',
+      lastName:
+        'Kumar',
+      dateOfBirth:
+        '1998-06-10',
+      gender:
+        'male',
+      maritalStatus:
+        'single',
+      email:
+        'rajeev@example.com',
+      phoneNumber:
+        '9876543210',
+    })
+
+    cy.fillStep3({
+      panNumber:
+        'ABCDE1234F',
+      aadhaarNumber:
+        '123412341234',
+    })
+
+    cy.fillStep4({
+      currentAddress:
+        'MG Road',
+      pinCode:
+        '680001',
+      residenceType:
+        'owned',
+      yearsAtAddress:
+        '3',
+    })
+
+    // Step 5 opened
+    cy.contains(
+      'Salaried'
+    ).should(
+      'exist'
+    )
+
+    // Fill employment details
+    cy.contains(
+      'Salaried'
+    ).click()
+
+    cy.get(
+      'input[name="companyName"]'
+    ).type(
+      'Infosys'
+    )
+
+    cy.get(
+      'input[name="monthlyIncome"]'
+    ).type(
+      '60000'
+    )
+
+    cy.get(
+      'input[name="workExperience"]'
+    ).type(
+      '3'
+    )
+
+    // Continue
+    cy.contains(
+      'Next'
+    ).click()
+
+    // Step 7 opened
+    cy.get(
+      'input[type="file"]'
+    ).should(
+      'exist'
+    )
+  }
+)
+
+it(
+  'Step 7 should allow document upload and continue',
+  () => {
+    cy.fillStep1({
+      loanType:
+        'personal',
+      loanAmount:
+        '400000',
+      tenure: '36',
+      purpose:
+        'Medical Emergency',
+    })
+
+    cy.fillStep2({
+      firstName:
+        'Rajeev',
+      lastName:
+        'Kumar',
+      dateOfBirth:
+        '1998-06-10',
+      gender:
+        'male',
+      maritalStatus:
+        'single',
+      email:
+        'rajeev@example.com',
+      phoneNumber:
+        '9876543210',
+    })
+
+    cy.fillStep3({
+      panNumber:
+        'ABCDE1234F',
+      aadhaarNumber:
+        '123412341234',
+    })
+
+    cy.fillStep4({
+      currentAddress:
+        'MG Road',
+      pinCode:
+        '680001',
+      residenceType:
+        'owned',
+      yearsAtAddress:
+        '3',
+    })
+
+    cy.fillStep5({
+      employmentType:
+        'salaried',
+      companyName:
+        'Infosys',
+      monthlyIncome:
+        '60000',
+      workExperience:
+        '3',
+    })
+
+    // Step 7 opened
+    cy.get(
+      'input[type="file"]'
+    ).should(
+      'exist'
+    )
+
+    // Upload docs + signature
+    cy.fillStep7()
+
+    // Step 8 should open
+    cy.get(
+      'input[type="checkbox"]'
+    ).should(
+      'exist'
+    )
+  }
+)
+
+it(
+  'Step 8 should block submission until agreements are checked',
+  () => {
+    cy.fillStep1({
+      loanType:
+        'personal',
+      loanAmount:
+        '400000',
+      tenure: '36',
+      purpose:
+        'Medical Emergency',
+    })
+
+    cy.fillStep2({
+      firstName:
+        'Rajeev',
+      lastName:
+        'Kumar',
+      dateOfBirth:
+        '1998-06-10',
+      gender:
+        'male',
+      maritalStatus:
+        'single',
+      email:
+        'rajeev@example.com',
+      phoneNumber:
+        '9876543210',
+    })
+
+    cy.fillStep3({
+      panNumber:
+        'ABCDE1234F',
+      aadhaarNumber:
+        '123412341234',
+    })
+
+    cy.fillStep4({
+      currentAddress:
+        'MG Road',
+      pinCode:
+        '680001',
+      residenceType:
+        'owned',
+      yearsAtAddress:
+        '3',
+    })
+
+    cy.fillStep5({
+      employmentType:
+        'salaried',
+      companyName:
+        'Infosys',
+      monthlyIncome:
+        '60000',
+      workExperience:
+        '3',
+    })
+
+    cy.fillStep7()
+
+    // Submit button should be disabled initially
+    cy.contains(
+      'Submit Application'
+    ).should(
+      'be.disabled'
+    )
+
+    // Check agreements
+    cy.get(
+      'input[type="checkbox"]'
+    ).check({
+      force: true,
+    })
+
+    // Submit should be enabled
+    cy.contains(
+      'Submit Application'
+    ).should(
+      'not.be.disabled'
+    )
+  }
+)
   }
 )

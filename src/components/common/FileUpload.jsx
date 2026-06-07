@@ -44,52 +44,53 @@ function FileUpload({
             'image/'
           )
 
-        if (
-  isImage
-) {
-  try {
-    const result =
-      await compressImage(
-        selectedFile
-      )
+        if (isImage) {
+          try {
+            const result =
+              await compressImage(
+                selectedFile
+              )
 
-    onFileSelect({
-      file:
-        result.compressedFile,
-      name:
-        result.compressedFile.name,
-      size:
-        result.compressedFile.size,
-      type:
-        result.compressedFile.type,
-      originalSize:
-        result.originalSize,
-      compressedSize:
-        result.compressedSize,
-    })
-  } catch (
-    error
-  ) {
-    console.error(
-      'Compression failed:',
-      error
-    )
+            onFileSelect({
+              file:
+                result.compressedFile,
+              name:
+                result.compressedFile
+                  .name,
+              size:
+                result.compressedFile
+                  .size,
+              type:
+                result.compressedFile
+                  .type,
+              originalSize:
+                result.originalSize,
+              compressedSize:
+                result.compressedSize,
+            })
+          } catch (
+            error
+          ) {
+            console.error(
+              'Compression failed:',
+              error
+            )
 
-    // fallback upload
-    onFileSelect({
-      file:
-        selectedFile,
-      name:
-        selectedFile.name,
-      size:
-        selectedFile.size,
-      type:
-        selectedFile.type,
-    })
-  }
+            // fallback upload
+            onFileSelect({
+              file:
+                selectedFile,
+              name:
+                selectedFile.name,
+              size:
+                selectedFile.size,
+              type:
+                selectedFile.type,
+            })
+          }
 
-  return
-}
+          return
+        }
 
         onFileSelect({
           file:
@@ -202,25 +203,41 @@ function FileUpload({
             </div>
           )}
 
-          <p className="text-sm font-medium text-slate-700">
-            {fileName}
-          </p>
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-sm font-medium text-slate-700">
+                {fileName}
+              </p>
 
-          {isRestoredFile && (
-            <p className="text-xs text-green-600">
-              Previously
-              uploaded
-            </p>
-          )}
+              {isRestoredFile && (
+                <p className="text-xs text-green-600">
+                  Previously
+                  uploaded
+                </p>
+              )}
 
-          <p className="text-xs text-slate-500">
-            {(
-              fileSize /
-              1024 /
-              1024
-            ).toFixed(2)}{' '}
-            MB
-          </p>
+              <p className="text-xs text-slate-500">
+                {(
+                  fileSize /
+                  1024 /
+                  1024
+                ).toFixed(2)}{' '}
+                MB
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                onFileSelect(
+                  null
+                )
+              }
+              className="rounded-lg bg-red-100 px-3 py-1 text-sm font-medium text-red-600 transition hover:bg-red-200"
+            >
+              Remove
+            </button>
+          </div>
 
           {file?.originalSize &&
             file?.compressedSize && (
