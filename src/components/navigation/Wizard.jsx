@@ -1,3 +1,4 @@
+
 import {
   useEffect,
   useMemo,
@@ -12,85 +13,88 @@ import useFormPersistence from '../../hooks/useFormPersistence'
 
 function Wizard() {
   const [
-  currentStep,
-  setCurrentStep,
-] = useState(0)
+    currentStep,
+    setCurrentStep,
+  ] = useState(0)
 
-
-useEffect(() => {
-  window.history.replaceState(
-    {
-      step: 0,
-    },
-    ''
-  )
-}, [])
-
-useEffect(() => {
-  const state =
-    window.history.state
-
-  if (
-    state?.step !==
-    currentStep
-  ) {
-    window.history.pushState(
+  useEffect(() => {
+    window.history.replaceState(
       {
-        step:
-          currentStep,
+        step: 0,
       },
       ''
     )
-  }
-}, [currentStep])
+  }, [])
 
-useEffect(() => {
-  const handlePopState =
-    (event) => {
-      if (
-        event.state
-          ?.step !==
-        undefined
-      ) {
-        setCurrentStep(
-          event.state
-            .step
-        )
-      }
+  useEffect(() => {
+    const state =
+      window.history.state
+
+    if (
+      state?.step !==
+      currentStep
+    ) {
+      window.history.pushState(
+        {
+          step:
+            currentStep,
+        },
+        ''
+      )
     }
+  }, [currentStep])
 
-  window.addEventListener(
-    'popstate',
-    handlePopState
-  )
+  useEffect(() => {
+    const handlePopState =
+      (event) => {
+        if (
+          event.state
+            ?.step !==
+          undefined
+        ) {
+          setCurrentStep(
+            event.state
+              .step
+          )
+        }
+      }
 
-  return () =>
-    window.removeEventListener(
+    window.addEventListener(
       'popstate',
       handlePopState
     )
-}, [])
 
- const {
-  saveMessage,
-} = useAutoSave(
-  currentStep
-)
+    return () =>
+      window.removeEventListener(
+        'popstate',
+        handlePopState
+      )
+  }, [])
 
- const {
-  showResumePrompt,
-  resumeForm,
-  startFresh,
-} =
-  useFormPersistence(
-    setCurrentStep
+  const {
+    saveMessage,
+  } = useAutoSave(
+    currentStep
   )
 
-  const { getStepData } =
+  const {
+    showResumePrompt,
+    resumeForm,
+    startFresh,
+  } =
+    useFormPersistence(
+      setCurrentStep
+    )
+
+  const {
+    getStepData,
+  } =
     useLoanFormStore()
 
   const step1Data =
-    getStepData('step1')
+    getStepData(
+      'step1'
+    )
 
   const loanType =
     step1Data.loanType
@@ -112,7 +116,8 @@ useEffect(() => {
       }
 
       if (
-        loanType === 'home'
+        loanType ===
+        'home'
       ) {
         return true
       }
@@ -136,7 +141,10 @@ useEffect(() => {
     useMemo(() => {
       return steps.filter(
         (step) => {
-          if (step.id === 6) {
+          if (
+            step.id ===
+            6
+          ) {
             return isCoApplicantRequired
           }
 
@@ -153,57 +161,168 @@ useEffect(() => {
     ].component
 
   const handleNext =
-  () => {
-    const step3Data =
-      getStepData(
-        'step3'
-      )
-
-    // Step 3 validation
-    if (
-      currentStep ===
-      2
-    ) {
-      const hasPan =
-        step3Data?.panNumber?.trim()
-
-      const hasAadhaar =
-        step3Data?.aadhaarNumber?.trim()
-
-      const hasConsent =
-        step3Data?.aadhaarConsent
-
+    () => {
+      // STEP 3 VALIDATION
       if (
-        !hasPan ||
-        !hasAadhaar ||
-        !hasConsent
+        currentStep ===
+        2
       ) {
-        alert(
-          'Please complete PAN, Aadhaar and consent before continuing'
-        )
+        const step3Data =
+          getStepData(
+            'step3'
+          )
 
-        return
+        const hasPan =
+          step3Data?.panNumber?.trim()
+
+        const hasAadhaar =
+          step3Data?.aadhaarNumber?.trim()
+
+        const hasConsent =
+          step3Data?.aadhaarConsent
+
+        if (
+          !hasPan ||
+          !hasAadhaar ||
+          !hasConsent
+        ) {
+          alert(
+            'Please complete PAN, Aadhaar and consent before continuing'
+          )
+
+          return
+        }
+      }
+
+      // STEP 4 VALIDATION
+      if (
+        currentStep ===
+        3
+      ) {
+        const step4Data =
+          getStepData(
+            'step4'
+          )
+
+        const hasAddress =
+          step4Data?.currentAddress?.trim()
+
+        const hasPinCode =
+          step4Data?.pinCode?.trim()
+
+        const hasResidenceType =
+          step4Data?.residenceType
+
+        const hasYearsAtAddress =
+          step4Data?.yearsAtAddress?.trim()
+
+        if (
+          !hasAddress ||
+          !hasPinCode ||
+          !hasResidenceType ||
+          !hasYearsAtAddress
+        ) {
+          alert(
+            'Please complete address details before continuing'
+          )
+
+          return
+        }
+      }
+
+      
+// STEP 5 VALIDATION
+if (
+  currentStep ===
+  4
+) {
+  const step5Data =
+    getStepData(
+      'step5'
+    )
+
+  const hasEmploymentType =
+    step5Data?.employmentType
+
+  const hasCompanyName =
+    step5Data?.companyName?.trim()
+
+  const hasIncome =
+    step5Data?.monthlyIncome
+
+  const hasExperience =
+    step5Data?.workExperience
+
+  if (
+    !hasEmploymentType ||
+    !hasCompanyName ||
+    !hasIncome ||
+    !hasExperience
+  ) {
+    alert(
+      'Please complete employment details before continuing'
+    )
+
+    return
+  }
+}
+
+// STEP 7 VALIDATION
+if (
+  currentStep ===
+  5
+) {
+  const step7Data =
+    getStepData(
+      'step7'
+    )
+
+  const documents =
+    step7Data?.documents ||
+    {}
+
+  const hasDocuments =
+    Object.values(
+      documents
+    ).every(
+      (doc) => !!doc
+    )
+
+  const hasSignature =
+    step7Data?.signature
+
+  if (
+    !hasDocuments ||
+    !hasSignature
+  ) {
+    alert(
+      'Please upload documents and provide signature before continuing'
+    )
+
+    return
+  }
+}
+
+if (
+        currentStep <
+        filteredSteps.length -
+          1
+      ) {
+        setCurrentStep(
+          currentStep + 1
+        )
       }
     }
-
-    if (
-      currentStep <
-      filteredSteps.length -
-        1
-    ) {
-      setCurrentStep(
-        currentStep + 1
-      )
-    }
-  }
 
   const handlePrevious =
     () => {
       if (
-        currentStep > 0
+        currentStep >
+        0
       ) {
         setCurrentStep(
-          currentStep - 1
+          currentStep -
+            1
         )
       }
     }
@@ -217,41 +336,54 @@ useEffect(() => {
             Application
           </h1>
 
-         <p className="mt-2 text-slate-500">
-      Complete your loan application securely
-    </p>
-  </div>
+          <p className="mt-2 text-slate-500">
+            Complete your
+            loan application
+            securely
+          </p>
+        </div>
 
-  {showResumePrompt && (
-    <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-      <h2 className="text-xl font-semibold text-slate-800">
-        Resume Previous Application?
-      </h2>
+        {showResumePrompt && (
+          <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-slate-800">
+              Resume
+              Previous
+              Application?
+            </h2>
 
-      <p className="mt-2 text-slate-500">
-        We found a saved application draft.
-        Would you like to continue where
-        you left off or start a new
-        application?
-      </p>
+            <p className="mt-2 text-slate-500">
+              We found a
+              saved
+              application
+              draft. Would
+              you like to
+              continue where
+              you left off
+              or start a new
+              application?
+            </p>
 
-      <div className="mt-5 flex gap-4">
-        <button
-          onClick={resumeForm}
-          className="rounded-lg bg-[#1F4E79] px-5 py-2 font-medium text-white"
-        >
-          Resume
-        </button>
+            <div className="mt-5 flex gap-4">
+              <button
+                onClick={
+                  resumeForm
+                }
+                className="rounded-lg bg-[#1F4E79] px-5 py-2 font-medium text-white"
+              >
+                Resume
+              </button>
 
-        <button
-          onClick={startFresh}
-          className="rounded-lg border border-slate-300 px-5 py-2 font-medium text-slate-700"
-        >
-          Start Fresh
-        </button>
-      </div>
-    </div>
-  )}
+              <button
+                onClick={
+                  startFresh
+                }
+                className="rounded-lg border border-slate-300 px-5 py-2 font-medium text-slate-700"
+              >
+                Start Fresh
+              </button>
+            </div>
+          </div>
+        )}
 
         <ProgressBar
           currentStep={
@@ -262,20 +394,18 @@ useEffect(() => {
           }
         />
 
-
-{saveMessage && (
-  <div className="mt-4 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm text-green-700 shadow-sm">
-    {saveMessage}
-  </div>
-)}
-
+        {saveMessage && (
+          <div className="mt-4 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm text-green-700 shadow-sm">
+            {saveMessage}
+          </div>
+        )}
 
         <div className="mb-8 flex min-h-[200px] items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-8">
-         <CurrentStepComponent
-  goToStep={
-    setCurrentStep
-  }
-/>
+          <CurrentStepComponent
+            goToStep={
+              setCurrentStep
+            }
+          />
         </div>
 
         <StepNavigation
@@ -298,3 +428,4 @@ useEffect(() => {
 }
 
 export default Wizard
+

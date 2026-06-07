@@ -264,7 +264,7 @@ it(
 )
 
 it(
-  'Step 4 should allow entering address details and continue',
+  'Step 4 should validate address fields',
   () => {
     cy.fillStep1({
       loanType:
@@ -300,14 +300,26 @@ it(
         '123412341234',
     })
 
-    // Verify Step 4 opened
+    // Already on Step 4
     cy.get(
       'input[name="currentAddress"]'
     ).should(
       'exist'
     )
 
-    // Fill Step 4
+    // Empty navigation
+    cy.contains(
+      'Next'
+    ).click()
+
+    // Should stay on Step 4
+    cy.get(
+      'input[name="currentAddress"]'
+    ).should(
+      'exist'
+    )
+
+    // Fill values
     cy.get(
       'input[name="currentAddress"]'
     ).type(
@@ -330,28 +342,28 @@ it(
       'input[name="yearsAtAddress"]'
     ).type('3')
 
-    // Continue
+    // Next works
     cy.contains(
       'Next'
     ).click()
 
-   // Verify Step 5 opened
-cy.contains(
-  'Salaried'
-).should(
-  'exist'
-)
+    cy.contains(
+      'Salaried'
+    ).should(
+      'exist'
+    )
   }
 )
 it(
-  'Step 5 should allow employment details and continue',
+  'Step 5 should validate employment details',
   () => {
     cy.fillStep1({
       loanType:
         'personal',
       loanAmount:
         '400000',
-      tenure: '36',
+      tenure:
+        '36',
       purpose:
         'Medical Emergency',
     })
@@ -391,14 +403,26 @@ it(
         '3',
     })
 
-    // Step 5 opened
+    // Already on Step 5
     cy.contains(
       'Salaried'
     ).should(
       'exist'
     )
 
-    // Fill employment details
+    // Try empty navigation
+    cy.contains(
+      'Next'
+    ).click()
+
+    // Should remain on Step 5
+    cy.contains(
+      'Salaried'
+    ).should(
+      'exist'
+    )
+
+    // Fill employment data
     cy.contains(
       'Salaried'
     ).click()
@@ -417,14 +441,14 @@ it(
 
     cy.get(
       'input[name="workExperience"]'
-    ).type(
-      '3'
-    )
+    ).type('3')
 
-    // Continue
+    // Next should work
     cy.contains(
       'Next'
-    ).click()
+    ).click({
+      force: true,
+    })
 
     // Step 7 opened
     cy.get(
@@ -434,16 +458,16 @@ it(
     )
   }
 )
-
 it(
-  'Step 7 should allow document upload and continue',
+  'Step 7 should validate documents and signature',
   () => {
     cy.fillStep1({
       loanType:
         'personal',
       loanAmount:
         '400000',
-      tenure: '36',
+      tenure:
+        '36',
       purpose:
         'Medical Emergency',
     })
@@ -494,25 +518,104 @@ it(
         '3',
     })
 
-    // Step 7 opened
+    // Already on Step 7
     cy.get(
       'input[type="file"]'
     ).should(
       'exist'
     )
 
-    // Upload docs + signature
-    cy.fillStep7()
+    // Try empty navigation
+    cy.contains(
+      'Next'
+    ).click()
 
-    // Step 8 should open
+    // Should remain on Step 7
     cy.get(
-      'input[type="checkbox"]'
+      'input[type="file"]'
+    ).should(
+      'exist'
+    )
+
+    // Upload required docs
+    cy.get(
+      'input[type="file"]'
+    ).each(
+      ($input, index) => {
+        const file =
+          index === 4
+            ? 'cypress/fixtures/sample.jpg'
+            : 'cypress/fixtures/sample.pdf'
+
+        cy.wrap(
+          $input
+        ).selectFile(
+          file,
+          {
+            force:
+              true,
+          }
+        )
+      }
+    )
+
+    cy.contains(
+      'Uploaded'
+    ).should(
+      'exist'
+    )
+
+    // Draw signature
+    cy.get(
+      'canvas'
+    )
+      .first()
+      .realMouseDown({
+        position:
+          'center',
+      })
+
+    cy.get(
+      'canvas'
+    )
+      .first()
+      .realMouseMove(
+        220,
+        60
+      )
+
+    cy.get(
+      'canvas'
+    )
+      .first()
+      .realMouseMove(
+        420,
+        90
+      )
+
+    cy.get(
+      'canvas'
+    )
+      .first()
+      .realMouseUp()
+
+    cy.wait(1000)
+
+    // Next should work
+    cy.contains(
+      'Next'
+    ).click({
+      force: true,
+    })
+
+    // Step 8 loaded
+    cy.contains(
+      'Submit Application'
     ).should(
       'exist'
     )
   }
 )
-
 it(
   'Step 8 should block submission until agreements are checked',
   () => {
