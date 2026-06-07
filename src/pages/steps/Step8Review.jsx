@@ -204,8 +204,8 @@ const estimatedEMI =
       consents.emiConsent)
 
   const canSubmit =
-    allConsentsChecked  //&&
-  //mandatoryDocsUploaded
+    allConsentsChecked &&
+  mandatoryDocsUploaded
 
   const handleConsent =
     (

@@ -45,42 +45,51 @@ function FileUpload({
           )
 
         if (
-          isImage
-        ) {
-          try {
-            const result =
-              await compressImage(
-                selectedFile
-              )
+  isImage
+) {
+  try {
+    const result =
+      await compressImage(
+        selectedFile
+      )
 
-            onFileSelect({
-              file:
-                result.compressedFile,
-              name:
-                result.compressedFile
-                  .name,
-              size:
-                result.compressedFile
-                  .size,
-              type:
-                result.compressedFile
-                  .type,
-              originalSize:
-                result.originalSize,
-              compressedSize:
-                result.compressedSize,
-            })
-          } catch (
-            error
-          ) {
-            console.error(
-              'Compression failed:',
-              error
-            )
-          }
+    onFileSelect({
+      file:
+        result.compressedFile,
+      name:
+        result.compressedFile.name,
+      size:
+        result.compressedFile.size,
+      type:
+        result.compressedFile.type,
+      originalSize:
+        result.originalSize,
+      compressedSize:
+        result.compressedSize,
+    })
+  } catch (
+    error
+  ) {
+    console.error(
+      'Compression failed:',
+      error
+    )
 
-          return
-        }
+    // fallback upload
+    onFileSelect({
+      file:
+        selectedFile,
+      name:
+        selectedFile.name,
+      size:
+        selectedFile.size,
+      type:
+        selectedFile.type,
+    })
+  }
+
+  return
+}
 
         onFileSelect({
           file:

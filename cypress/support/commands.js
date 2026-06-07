@@ -23,6 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import 'cypress-real-events'
 
 Cypress.Commands.add(
   'fillStep1',
@@ -370,91 +371,95 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'fillStep7',
   () => {
-    cy.window().then(
-      (win) => {
-        const draft =
-          JSON.parse(
-            win.localStorage.getItem(
-              'loanFormDraft'
-            ) || '{}'
-          )
 
-        const fakePdf = {
-          file: {
-            name:
-              'sample.pdf',
-            size: 1024,
-            type:
-              'application/pdf',
-          },
-          name:
-            'sample.pdf',
-          size: 1024,
-          type:
-            'application/pdf',
+    // Upload all documents
+   // Upload files properly for react-dropzone
+cy.get('input[type="file"]')
+  .each(($input) => {
+
+    const accept =
+      $input.attr(
+        'accept'
+      ) || ''
+
+    const file =
+      accept.includes(
+        'image'
+      ) &&
+      !accept.includes(
+        'pdf'
+      )
+        ? 'sample.jpg'
+        : 'sample.pdf'
+
+    cy.wrap($input)
+      .selectFile(
+        `cypress/fixtures/${file}`,
+        {
+          action:
+            'drag-drop',
+          force: true,
         }
+      )
+  })
 
-        const fakeImage =
-          {
-            file: {
-              name:
-                'sample.jpg',
-              size: 1024,
-              type:
-                'image/jpeg',
-            },
-            name:
-              'sample.jpg',
-            size: 1024,
-            type:
-              'image/jpeg',
-          }
-
-        draft.state =
-          {
-            ...draft.state,
-
-            step7: {
-              aadhaarFront:
-                fakePdf,
-
-              aadhaarBack:
-                fakePdf,
-
-              bankStatement:
-                fakePdf,
-
-              salarySlips:
-                fakePdf,
-
-              photo:
-                fakeImage,
-
-              signature:
-                'data:image/png;base64,testsignature',
-            },
-          }
-
-        win.localStorage.setItem(
-          'loanFormDraft',
-          JSON.stringify(
-            draft
-          )
-        )
-
-        
-      }
+// Wait for compression + state update
+cy.wait(3000)
+    // Verify uploads actually happened
+    cy.contains(
+      'Uploaded'
+    ).should(
+      'exist'
     )
 
-    cy.window().then((win) => {
-  cy.log(
-    win.localStorage.getItem(
-      'loanformDraft'
-    )
-  )
-})
+    // Draw signature properly
+    // Draw signature properly
+cy.get('canvas')
+  .first()
+  .then(($canvas) => {
+    const canvas =
+      $canvas[0]
 
-    // stay on same flow
+    const rect =
+      canvas.getBoundingClientRect()
+
+    cy.wrap(canvas)
+      .realMouseDown({
+        position:
+          'center',
+      })
+
+    cy.wrap(canvas)
+      .realMouseMove(
+        rect.width *
+          0.3,
+        rect.height *
+          0.3
+      )
+
+    cy.wrap(canvas)
+      .realMouseMove(
+        rect.width *
+          0.6,
+        rect.height *
+          0.4
+      )
+
+    cy.wrap(canvas)
+      .realMouseUp()
+  })
+
+
+    // Wait for onEnd → saveSignature
+    cy.wait(3000)
+
+    // Ensure signature warning disappears
+    cy.contains(
+      'Signature is required'
+    ).should(
+      'not.exist'
+    )
+
     cy.contains(
       'Next'
     ).click({
