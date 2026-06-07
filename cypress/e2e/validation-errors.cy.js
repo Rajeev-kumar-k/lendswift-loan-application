@@ -458,6 +458,156 @@ it(
     )
   }
 )
+
+
+it(
+  'Step 6 should validate co-applicant details',
+  () => {
+    cy.fillStep1({
+      loanType:
+        'personal',
+      loanAmount:
+        '600000',
+      tenure:
+        '36',
+      purpose:
+        'Medical Emergency',
+    })
+
+    cy.fillStep2({
+      firstName:
+        'Rajeev',
+      lastName:
+        'Kumar',
+      dateOfBirth:
+        '1998-06-10',
+      gender:
+        'male',
+      maritalStatus:
+        'single',
+      email:
+        'rajeev@example.com',
+      phoneNumber:
+        '9876543210',
+    })
+
+    cy.fillStep3({
+      panNumber:
+        'ABCDE1234F',
+      aadhaarNumber:
+        '123412341234',
+    })
+
+    cy.fillStep4({
+      currentAddress:
+        'MG Road',
+      pinCode:
+        '680001',
+      residenceType:
+        'owned',
+      yearsAtAddress:
+        '3',
+    })
+
+    cy.fillStep5({
+      employmentType:
+        'salaried',
+      companyName:
+        'Infosys',
+      monthlyIncome:
+        '60000',
+      workExperience:
+        '3',
+    })
+
+    // Step 6 visible
+    cy.contains(
+      'Co-Applicant'
+    ).should(
+      'exist'
+    )
+
+    // Try empty navigation
+    cy.contains(
+      'Next'
+    ).click()
+
+    // Should remain on Step 6
+    cy.contains(
+      'Co-Applicant'
+    ).should(
+      'exist'
+    )
+
+    // Fill co-applicant details
+    cy.contains(
+      'Co-Applicant Name'
+    )
+      .parent()
+      .find('input')
+      .type(
+        'Amit Kumar'
+      )
+
+    cy.contains(
+      'Relationship'
+    )
+      .parent()
+      .find('select')
+      .select(
+        'Sibling'
+      )
+
+    cy.contains(
+      'Co-Applicant PAN'
+    )
+      .parent()
+      .find('input')
+      .type(
+        'HCRPR6547D'
+      )
+
+    cy.contains(
+      'Co-Applicant Income'
+    )
+      .parent()
+      .find('input')
+      .type(
+        '45000'
+      )
+
+    cy.get(
+      'input[type="checkbox"]'
+    )
+      .last()
+      .check({
+        force: true,
+      })
+
+    cy.contains(
+      'Signature'
+    )
+      .parent()
+      .find('input')
+      .type(
+        'Amit Kumar'
+      )
+
+    // Next should work
+    cy.contains(
+      'Next'
+    ).click()
+
+    // Step 7 opened
+    cy.get(
+      'input[type="file"]'
+    ).should(
+      'exist'
+    )
+  }
+)
+
+
 it(
   'Step 7 should validate documents and signature',
   () => {

@@ -160,159 +160,201 @@ function Wizard() {
       currentStep
     ].component
 
-  const handleNext =
-    () => {
-      // STEP 3 VALIDATION
-      if (
-        currentStep ===
-        2
-      ) {
-        const step3Data =
-          getStepData(
-            'step3'
-          )
+ 
+const handleNext =
+  () => {
+    const currentStepId =
+      filteredSteps[
+        currentStep
+      ]?.id
 
-        const hasPan =
-          step3Data?.panNumber?.trim()
-
-        const hasAadhaar =
-          step3Data?.aadhaarNumber?.trim()
-
-        const hasConsent =
-          step3Data?.aadhaarConsent
-
-        if (
-          !hasPan ||
-          !hasAadhaar ||
-          !hasConsent
-        ) {
-          alert(
-            'Please complete PAN, Aadhaar and consent before continuing'
-          )
-
-          return
-        }
-      }
-
-      // STEP 4 VALIDATION
-      if (
-        currentStep ===
-        3
-      ) {
-        const step4Data =
-          getStepData(
-            'step4'
-          )
-
-        const hasAddress =
-          step4Data?.currentAddress?.trim()
-
-        const hasPinCode =
-          step4Data?.pinCode?.trim()
-
-        const hasResidenceType =
-          step4Data?.residenceType
-
-        const hasYearsAtAddress =
-          step4Data?.yearsAtAddress?.trim()
-
-        if (
-          !hasAddress ||
-          !hasPinCode ||
-          !hasResidenceType ||
-          !hasYearsAtAddress
-        ) {
-          alert(
-            'Please complete address details before continuing'
-          )
-
-          return
-        }
-      }
-
-      
-// STEP 5 VALIDATION
-if (
-  currentStep ===
-  4
-) {
-  const step5Data =
-    getStepData(
-      'step5'
-    )
-
-  const hasEmploymentType =
-    step5Data?.employmentType
-
-  const hasCompanyName =
-    step5Data?.companyName?.trim()
-
-  const hasIncome =
-    step5Data?.monthlyIncome
-
-  const hasExperience =
-    step5Data?.workExperience
-
-  if (
-    !hasEmploymentType ||
-    !hasCompanyName ||
-    !hasIncome ||
-    !hasExperience
-  ) {
-    alert(
-      'Please complete employment details before continuing'
-    )
-
-    return
-  }
-}
-
-// STEP 7 VALIDATION
-if (
-  currentStep ===
-  5
-) {
-  const step7Data =
-    getStepData(
-      'step7'
-    )
-
-  const documents =
-    step7Data?.documents ||
-    {}
-
-  const hasDocuments =
-    Object.values(
-      documents
-    ).every(
-      (doc) => !!doc
-    )
-
-  const hasSignature =
-    step7Data?.signature
-
-  if (
-    !hasDocuments ||
-    !hasSignature
-  ) {
-    alert(
-      'Please upload documents and provide signature before continuing'
-    )
-
-    return
-  }
-}
-
-if (
-        currentStep <
-        filteredSteps.length -
-          1
-      ) {
-        setCurrentStep(
-          currentStep + 1
+    // STEP 3 VALIDATION
+    if (
+      currentStepId ===
+      3
+    ) {
+      const step3Data =
+        getStepData(
+          'step3'
         )
+
+      const hasPan =
+        step3Data?.panNumber?.trim()
+
+      const hasAadhaar =
+        step3Data?.aadhaarNumber?.trim()
+
+      const hasConsent =
+        step3Data?.aadhaarConsent
+
+      if (
+        !hasPan ||
+        !hasAadhaar ||
+        !hasConsent
+      ) {
+        alert(
+          'Please complete PAN, Aadhaar and consent before continuing'
+        )
+
+        return
       }
     }
+
+    // STEP 4 VALIDATION
+    if (
+      currentStepId ===
+      4
+    ) {
+      const step4Data =
+        getStepData(
+          'step4'
+        )
+
+      const hasAddress =
+        step4Data?.currentAddress?.trim()
+
+      const hasPinCode =
+        step4Data?.pinCode?.trim()
+
+      const hasResidenceType =
+        step4Data?.residenceType
+
+      const hasYearsAtAddress =
+        step4Data?.yearsAtAddress?.trim()
+
+      if (
+        !hasAddress ||
+        !hasPinCode ||
+        !hasResidenceType ||
+        !hasYearsAtAddress
+      ) {
+        alert(
+          'Please complete address details before continuing'
+        )
+
+        return
+      }
+    }
+
+    // STEP 5 VALIDATION
+    if (
+      currentStepId ===
+      5
+    ) {
+      const step5Data =
+        getStepData(
+          'step5'
+        )
+
+      const hasEmploymentType =
+        step5Data?.employmentType
+
+      const hasCompanyName =
+        step5Data?.companyName?.trim()
+
+      const hasIncome =
+        step5Data?.monthlyIncome
+
+      const hasExperience =
+        step5Data?.workExperience
+
+      if (
+        !hasEmploymentType ||
+        !hasCompanyName ||
+        !hasIncome ||
+        !hasExperience
+      ) {
+        alert(
+          'Please complete employment details before continuing'
+        )
+
+        return
+      }
+    }
+
+    // STEP 6 VALIDATION
+    if (
+      currentStepId ===
+      6
+    ) {
+      const step6Data =
+        getStepData(
+          'step6'
+        )
+
+      const hasName =
+        step6Data?.coApplicantName?.trim()
+
+      const hasRelationship =
+        step6Data?.relationship?.trim()
+
+      const hasPan = 
+        step6Data?.coApplicantPan?.trim()
+
+      const hasIncome =
+        step6Data?.coApplicantPan
+
+        const hasConsent = step6Data?.coApplicantConsent 
+        const hasSignature = step6Data?.signature?.trim()
+
+      if ( !hasName || !hasRelationship || !hasPan || !hasIncome || !hasConsent || !hasSignature ) {
+        alert(
+          'Please complete co-applicant details before continuing'
+        )
+
+        return
+      }
+    }
+
+    // STEP 7 VALIDATION
+    if (
+      currentStepId ===
+      7
+    ) {
+      const step7Data =
+        getStepData(
+          'step7'
+        )
+
+      const documents =
+        step7Data?.documents ||
+        {}
+
+      const hasDocuments =
+        Object.values(
+          documents
+        ).every(
+          (doc) => !!doc
+        )
+
+      const hasSignature =
+        step7Data?.signature
+
+      if (
+        !hasDocuments ||
+        !hasSignature
+      ) {
+        alert(
+          'Please upload documents and provide signature before continuing'
+        )
+
+        return
+      }
+    }
+
+    if (
+      currentStep <
+      filteredSteps.length -
+        1
+    ) {
+      setCurrentStep(
+        currentStep + 1
+      )
+    }
+  }
+
+
+
 
   const handlePrevious =
     () => {
