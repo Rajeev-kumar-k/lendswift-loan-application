@@ -1,6 +1,6 @@
-import { step1Schema } from './Step1Schema'
-import { step2Schema } from './Step2Schema'
-import { step5Schema } from './Step5Schema'
+import { step1Schema } from './step1Schema'
+import { step2Schema } from './step2Schema'
+import { step5Schema } from './step5Schema'
 
 function schemaFactory(
   step,
