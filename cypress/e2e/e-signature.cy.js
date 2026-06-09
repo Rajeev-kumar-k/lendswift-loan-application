@@ -5,7 +5,7 @@ describe(
       cy.clearLocalStorage()
 
       cy.visit(
-        'http://localhost:5173'
+        'http://localhost:4173'
       )
 
       cy.fillStep1({

@@ -3,7 +3,7 @@ describe(
   () => {
     beforeEach(() => {
       cy.visit(
-        'http://localhost:5173'
+        'http://localhost:4173'
       )
     })
 

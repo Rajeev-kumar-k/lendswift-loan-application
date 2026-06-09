@@ -1,12 +1,15 @@
 describe(
   'Responsive Design Tests',
   () => {
-    const viewports = [
-      [320, 568], // Mobile
-      [768, 1024], // Tablet
-      [1280, 720], // Laptop
-      [1920, 1080], // Desktop
-    ]
+  const viewports = [
+  [320, 568],
+  [375, 667],
+  [414, 896],
+  [768, 1024],
+  [1024, 768],
+  [1440, 900],
+  [1920, 1080],
+]
 
     viewports.forEach(
       ([width, height]) => {
@@ -18,7 +21,7 @@ describe(
               height
             )
 
-            cy.visit('/')
+            cy.visit('http://localhost:4173')
 
             // Wait for app to load
             cy.wait(2000)
