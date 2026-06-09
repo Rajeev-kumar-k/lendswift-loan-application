@@ -219,21 +219,43 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'fillStep5',
   (data) => {
-    const employmentLabel =
-      data.employmentType ===
-      'salaried'
-        ? 'Salaried'
-        : data.employmentType ===
-          'self-employed'
-        ? 'Self Employed'
-        : 'Business Owner'
 
-    cy.contains(
-      employmentLabel
-    ).click()
+    // Select employment type properly
+    if (
+      data.employmentType === 'salaried'
+    ) {
+      cy.get(
+        'input[value="salaried"]'
+      ).check({
+        force: true,
+      })
+    }
+
+    if (
+      data.employmentType ===
+      'self-employed'
+    ) {
+      cy.get(
+        'input[value="self-employed"]'
+      ).check({
+        force: true,
+      })
+    }
+
+    if (
+      data.employmentType ===
+      'business-owner'
+    ) {
+      cy.get(
+        'input[value="business-owner"]'
+      ).check({
+        force: true,
+      })
+    }
 
     cy.wait(500)
 
+    // Salaried
     if (
       data.companyName
     ) {
@@ -244,16 +266,7 @@ Cypress.Commands.add(
       )
     }
 
-    if (
-      data.businessName
-    ) {
-      cy.get(
-        'input[name="businessName"]'
-      ).type(
-        data.businessName
-      )
-    }
-
+    // Self employed
     if (
       data.profession
     ) {
@@ -264,19 +277,14 @@ Cypress.Commands.add(
       )
     }
 
-    cy.get(
-      'input[name="monthlyIncome"]'
-    ).type(
-      data.monthlyIncome
-    )
-
+    // Business owner
     if (
-      data.workExperience
+      data.businessName
     ) {
       cy.get(
-        'input[name="workExperience"]'
+        'input[name="businessName"]'
       ).type(
-        data.workExperience
+        data.businessName
       )
     }
 
@@ -297,6 +305,24 @@ Cypress.Commands.add(
         'input[name="yearsInBusiness"]'
       ).type(
         data.yearsInBusiness
+      )
+    }
+
+    // Common field
+    cy.get(
+      'input[name="monthlyIncome"]'
+    ).type(
+      data.monthlyIncome
+    )
+
+    // Salaried only
+    if (
+      data.workExperience
+    ) {
+      cy.get(
+        'input[name="workExperience"]'
+      ).type(
+        data.workExperience
       )
     }
 
@@ -337,6 +363,12 @@ Cypress.Commands.add(
       .select(
         data.relationship
       )
+
+      cy.get(
+  'input[name="coApplicantPan"]'
+).type(
+  'ABCDE1234F'
+)
 
     cy.contains(
       'Co-Applicant Income'

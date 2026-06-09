@@ -235,77 +235,114 @@ const handleNext =
         return
       }
     }
+// STEP 5 VALIDATION
+if (
+  currentStepId === 5
+) {
+  const step5Data =
+    getStepData(
+      'step5'
+    )
 
-    // STEP 5 VALIDATION
-    if (
-      currentStepId ===
-      5
-    ) {
-      const step5Data =
-        getStepData(
-          'step5'
-        )
+  const employmentType =
+    step5Data?.employmentType
 
-      const hasEmploymentType =
-        step5Data?.employmentType
+  // Employment type required
+  if (
+    !employmentType
+  ) {
+    alert(
+      'Please select employment type'
+    )
+    return
+  }
 
-      const hasCompanyName =
-        step5Data?.companyName?.trim()
+  let isValid =
+    false
 
-      const hasIncome =
-        step5Data?.monthlyIncome
+  // Salaried
+  if (
+    employmentType ===
+    'salaried'
+  ) {
+    isValid =
+      !!step5Data?.companyName?.trim() &&
+      !!step5Data?.monthlyIncome &&
+      !!step5Data?.workExperience
+  }
 
-      const hasExperience =
-        step5Data?.workExperience
+  // Self-employed
+  if (
+    employmentType ===
+    'self-employed'
+  ) {
+    isValid =
+      !!step5Data?.profession?.trim() &&
+      !!step5Data?.monthlyIncome
+  }
 
-      if (
-        !hasEmploymentType ||
-        !hasCompanyName ||
-        !hasIncome ||
-        !hasExperience
-      ) {
-        alert(
-          'Please complete employment details before continuing'
-        )
+  // Business owner
+  if (
+    employmentType ===
+    'business-owner'
+  ) {
+    isValid =
+      !!step5Data?.businessName?.trim() &&
+      !!step5Data?.gstNumber?.trim() &&
+      !!step5Data?.monthlyIncome &&
+      !!step5Data?.yearsInBusiness
+  }
+//step 5 validation
+  if (!isValid) {
+    alert(
+      'Please complete employment details before continuing'
+    )
+    return
+  }
+}
+   // STEP 6 VALIDATION
+if (
+  currentStepId === 6
+) {
+  const step6Data =
+    getStepData(
+      'step6'
+    )
 
-        return
-      }
-    }
+  const hasName =
+    step6Data?.coApplicantName?.trim()
 
-    // STEP 6 VALIDATION
-    if (
-      currentStepId ===
-      6
-    ) {
-      const step6Data =
-        getStepData(
-          'step6'
-        )
+  const hasRelationship =
+    step6Data?.relationship?.trim()
 
-      const hasName =
-        step6Data?.coApplicantName?.trim()
+  const hasPan =
+    step6Data?.coApplicantPan?.trim()
 
-      const hasRelationship =
-        step6Data?.relationship?.trim()
+  // FIXED
+  const hasIncome =
+    step6Data?.coApplicantIncome
 
-      const hasPan = 
-        step6Data?.coApplicantPan?.trim()
+  const hasConsent =
+    step6Data?.coApplicantConsent
 
-      const hasIncome =
-        step6Data?.coApplicantPan
+  // Optional unless collected in this step
+  const hasSignature =
+    step6Data?.signature?.trim()
 
-        const hasConsent = step6Data?.coApplicantConsent 
-        const hasSignature = step6Data?.signature?.trim()
+  if (
+    !hasName ||
+    !hasRelationship ||
+    !hasPan ||
+    !hasIncome ||
+    !hasConsent
+  ) {
+    alert(
+      'Please complete co-applicant details before continuing'
+    )
 
-      if ( !hasName || !hasRelationship || !hasPan || !hasIncome || !hasConsent || !hasSignature ) {
-        alert(
-          'Please complete co-applicant details before continuing'
-        )
-
-        return
-      }
-    }
-
+    return
+  }
+}
     // STEP 7 VALIDATION
     if (
       currentStepId ===

@@ -32,6 +32,15 @@
     "employmentType": "business-owner",
     "businessName": "Menon Traders",
     "monthlyIncome": "200000",
-    "gstNumber": "32ABCDE1234F1Z5"
+    "gstNumber": "32ABCDE1234F1Z5",
+    "yearsInBusiness": "5"
+  },
+
+    "step6": {
+    "coApplicantName": "Priya Sharma",
+    "relationship": "spouse",
+    "coApplicantPan":"ABCDE1234F",
+    "coApplicantIncome": "50000",
+    "signature": "Priya Sharma"
   }
 }
