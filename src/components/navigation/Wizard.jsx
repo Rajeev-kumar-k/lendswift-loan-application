@@ -326,8 +326,8 @@ if (
     step6Data?.coApplicantConsent
 
   // Optional unless collected in this step
-  const hasSignature =
-    step6Data?.signature?.trim()
+  // const hasSignature =
+  //   step6Data?.signature?.trim()
 
   if (
     !hasName ||

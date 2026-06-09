@@ -5,10 +5,7 @@ export default {
     baseUrl:
       'http://localhost:5173',
 
-    setupNodeEvents(
-      on,
-      config
-    ) {
+    setupNodeEvents( ) {
       // implement node event listeners here
     },
   },

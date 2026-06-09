@@ -3,7 +3,7 @@ describe(
   () => {
     beforeEach(() => {
       cy.visit(
-        'http://localhost:4173'
+        'http://localhost:5173'
       )
 
       cy.fixture(

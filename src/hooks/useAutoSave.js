@@ -84,15 +84,9 @@ function useAutoSave(
   formData
 )
 
-console.log(
-  'KEY:',
-  key
-)
 
-console.log(
-  'ENCRYPTED:',
-  encrypted
-)
+
+
               const savedAt =
                 new Date().toLocaleTimeString(
                   [],

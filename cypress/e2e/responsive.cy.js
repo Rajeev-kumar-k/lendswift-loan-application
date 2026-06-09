@@ -21,7 +21,7 @@ describe(
               height
             )
 
-            cy.visit('http://localhost:4173')
+            cy.visit('http://localhost:5173')
 
             // Wait for app to load
             cy.wait(2000)
