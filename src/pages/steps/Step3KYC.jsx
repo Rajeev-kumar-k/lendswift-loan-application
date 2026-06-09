@@ -118,7 +118,7 @@ const [
       <div>
         {panVerification
           .isVerifying && (
-          <p className="text-amber-600">
+          <p className="text-amber-700">
             Verifying PAN...
           </p>
         )}
@@ -185,7 +185,7 @@ const [
       <div>
         {aadhaarVerification
           .isVerifying && (
-          <p className="text-amber-600">
+          <p className="text-amber-700">
             Verifying Aadhaar...
           </p>
         )}

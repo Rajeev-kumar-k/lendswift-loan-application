@@ -1,3 +1,4 @@
+
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import compressImage from '../../utils/imageCompression'
@@ -159,8 +160,15 @@ function FileUpload({
         </label>
       )}
 
-      <div
-        {...getRootProps()}
+      
+<div
+  {...getRootProps()}
+  aria-label={
+    label ||
+    'Upload file'
+  }
+
+
         className={`cursor-pointer rounded-xl border-2 border-dashed p-6 text-center transition ${
           isDragActive
             ? 'border-[#1F4E79] bg-blue-50'
@@ -169,6 +177,10 @@ function FileUpload({
       >
         <input
           {...getInputProps()}
+          aria-label={
+            label ||
+            'Upload file'
+          }
         />
 
         <p className="text-sm text-slate-600">
@@ -177,7 +189,7 @@ function FileUpload({
             : 'Drag & drop a file here, or click to browse'}
         </p>
 
-        <p className="mt-2 text-xs text-slate-400">
+        <p className="mt-2 text-xs text-slate-600">
           PDF, JPG, PNG
           allowed (Max
           5MB)
@@ -192,13 +204,13 @@ function FileUpload({
                 src={URL.createObjectURL(
                   uploadedFile
                 )}
-                alt="Preview"
+                alt="Uploaded file preview"
                 className="mb-3 h-40 rounded-lg object-cover"
               />
             )}
 
           {isPDF && (
-            <div className="mb-3 flex items-center gap-2 text-red-600">
+            <div className="mb-3 flex items-center gap-2 text-red-700">
               📄 PDF File
             </div>
           )}
@@ -210,7 +222,7 @@ function FileUpload({
               </p>
 
               {isRestoredFile && (
-                <p className="text-xs text-green-600">
+                <p className="text-xs text-green-700">
                   Previously
                   uploaded
                 </p>
@@ -228,12 +240,13 @@ function FileUpload({
 
             <button
               type="button"
+              aria-label="Remove uploaded file"
               onClick={() =>
                 onFileSelect(
                   null
                 )
               }
-              className="rounded-lg bg-red-100 px-3 py-1 text-sm font-medium text-red-600 transition hover:bg-red-200"
+              className="rounded-lg bg-red-100 px-3 py-1 text-sm font-medium text-red-700 transition hover:bg-red-200"
             >
               Remove
             </button>
@@ -280,3 +293,4 @@ function FileUpload({
 }
 
 export default FileUpload
+

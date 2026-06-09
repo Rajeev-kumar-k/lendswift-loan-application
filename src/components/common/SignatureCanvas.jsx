@@ -81,7 +81,7 @@ function SignatureCanvas({
       </div>
 
       {!value && (
-        <p className="mt-2 text-sm text-amber-600">
+        <p className="mt-2 text-sm text-amber-700">
           Signature is
           required
         </p>

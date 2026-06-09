@@ -454,7 +454,7 @@ const estimatedEMI =
                 document
                   .key
               ]
-                ? 'text-green-600'
+                ? 'text-green-700'
                 : 'text-red-600'
             }`}
           >

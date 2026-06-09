@@ -17,3 +17,4 @@
 import './commands'
 import 'cypress-real-events/support'
 import 'cypress-plugin-tab'
+import 'cypress-axe'

@@ -96,6 +96,7 @@ const isMarried =
     <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
       <Input
         label="Co-Applicant Name"
+        name="coApplicantName"
         value={
           watchedValues.coApplicantName ||
           ''
@@ -113,6 +114,7 @@ const isMarried =
 
       <Select
         label="Relationship"
+        name="relationship"
         options={
           relationshipOptions
         }
@@ -134,6 +136,7 @@ const isMarried =
       <div className="md:col-span-2">
         <MaskedInput
           label="Co-Applicant PAN"
+          name="coApplicantPan"
           value={
             panNumber
           }
@@ -165,7 +168,7 @@ const isMarried =
         />
 
         {panVerification.isVerifying && (
-          <p className="text-amber-600">
+          <p className="text-amber-700">
             Verifying
             PAN...
           </p>
@@ -180,6 +183,7 @@ const isMarried =
 
       <Input
         label="Co-Applicant Income"
+        name="coApplicantIncome"
         type="number"
         value={
           watchedValues.coApplicantIncome ||
@@ -216,6 +220,7 @@ const isMarried =
 
         <Input
           label="Signature"
+          name="signature"
           placeholder="Type full name as signature"
           className="mt-4"
           value={

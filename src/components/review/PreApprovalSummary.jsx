@@ -105,7 +105,7 @@ function PreApprovalSummary({
 
       <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
         {exceedsLimit ? (
-          <p className="text-sm font-medium text-amber-600">
+          <p className="text-sm font-medium text-amber-700">
             ⚠ EMI exceeds
             50% of monthly
             income.
@@ -115,7 +115,7 @@ function PreApprovalSummary({
             submission.
           </p>
         ) : (
-          <p className="text-sm font-medium text-green-600">
+          <p className="text-sm font-medium text-green-700">
             ✅ EMI appears
             affordable
             within income

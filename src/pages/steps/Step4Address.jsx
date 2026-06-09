@@ -241,7 +241,7 @@ function Step4Address() {
       />
 
       {isLoading && (
-        <p className="text-amber-600">
+        <p className="text-amber-700">
           Looking up PIN code...
         </p>
       )}
@@ -271,7 +271,7 @@ function Step4Address() {
       />
 
       {stateWarning && (
-        <p className="text-amber-600">
+        <p className="text-amber-700">
           {stateWarning}
         </p>
       )}
