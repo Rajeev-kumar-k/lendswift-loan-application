@@ -108,11 +108,19 @@ const totalIncome =
         0
     )
 
+const interestRates = {
+  personal: 14,
+  home: 8.5,
+  business: 12,
+}
+
 const estimatedEMI =
   calculateEMI(
     loanAmount,
-    tenure,
-    step1.loanType
+    interestRates[
+      step1.loanType
+    ],
+    tenure
   )
 
   const exceedsRatio =
@@ -500,7 +508,7 @@ const estimatedEMI =
           Consents
         </h2>
 
-        <div className="space-y-4">
+        <div className="space-y-4 w-full overflow-hidden">
           <Checkbox
             label="I confirm all information provided is accurate."
             checked={
@@ -573,24 +581,23 @@ const estimatedEMI =
             }
           />
 
-          {exceedsRatio && (
-            <Checkbox
-              label="I understand my EMI exceeds 50% of income and still wish to continue."
-              checked={
-                consents.emiConsent
-              }
-              onChange={(
-                event
-              ) =>
-                handleConsent(
-                  'emiConsent',
-                  event.target
-                    .checked
-                )
-              }
-            />
-          )}
-        </div>
+{exceedsRatio && (
+  <Checkbox
+    label="I understand my EMI exceeds 50% of income and still wish to continue."
+    checked={
+      consents.emiConsent
+    }
+    onChange={(
+      event
+    ) =>
+      handleConsent(
+        'emiConsent',
+        event.target
+          .checked
+      )
+    }
+  />
+)}        </div>
       </div>
 
       <button

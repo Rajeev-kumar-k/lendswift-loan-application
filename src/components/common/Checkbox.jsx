@@ -9,23 +9,25 @@ function Checkbox({
 }) {
   return (
     <div className="w-full">
-      <label className="flex cursor-pointer items-center gap-2">
+      <label className="flex items-start gap-3">
         <input
           type="checkbox"
           checked={checked}
           onChange={onChange}
-          className="h-4 w-4 rounded border-slate-300 text-[#1F4E79] focus:ring-[#1F4E79]"
+          className="mt-1 h-5 w-5 shrink-0 accent-[#1F4E79]"
           {...props}
         />
 
-        <span className="text-sm text-slate-700">
+        <span className="text-sm text-slate-700 break-words">
           {label}
         </span>
       </label>
 
-      <ErrorMessage
-        message={error}
-      />
+      {error && (
+        <ErrorMessage
+          message={error}
+        />
+      )}
     </div>
   )
 }
